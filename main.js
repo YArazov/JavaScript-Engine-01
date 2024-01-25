@@ -13,7 +13,7 @@ function updateAndDraw() {
     const circle = new Circle({x: 50, y: 60}, 10, 0);
     //draw objects
     renderer.clearFrame();
-    renderer.drawCircle(circle, "black");
+    renderer.drawCircle(circle, "black","red");
 
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
