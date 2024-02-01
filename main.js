@@ -14,6 +14,8 @@ function updateAndDraw() {
     //draw objects
     renderer.clearFrame();
     renderer.drawCircle(circle, "black");
+    renderer.drawRect({position: {x: 70, y: 90}, width: 50, height: 100}, "blue", "green"); //command-z undo, command-s save
+
 
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
