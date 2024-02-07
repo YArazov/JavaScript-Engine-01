@@ -42,7 +42,7 @@ export class Renderer {
 
     drawFrame(objects, fillCol, bordCol) {
         for (let i = 0; i<objects.length; i++) {
-            this.drawCircle(objects[i], bordCol, fillCol);
+            this.drawRect(objects[i], bordCol, fillCol);
         } 
     }
 

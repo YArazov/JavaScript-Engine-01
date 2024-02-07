@@ -1,6 +1,7 @@
 import {Renderer} from './renderer.js';
 import {Circle} from './circle.js';
 import {Input} from './input.js';
+import {rectangle} from './rectangle.js';
 
 const SMALLEST_RADIUS = 10;
 const dt = 1/60;
@@ -25,7 +26,7 @@ function updateAndDraw() {
 
     //make objects
     if (inp.inputs.lclick && shapeBeingMade == null) {
-        shapeBeingMade = new Circle(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS, 0);
+        shapeBeingMade = new rectangle(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS, 0);
     }
     if (inp.inputs.lclick && shapeBeingMade) {
         const selectedRadius = shapeBeingMade.position.clone().subtract(inp.inputs.mouse.position).magnitude();
@@ -43,7 +44,7 @@ function updateAndDraw() {
     renderer.drawFrame(objects, fillCol, bordCol);
     //draw shape
     if (shapeBeingMade) {
-        renderer.drawCircle(shapeBeingMade, bordCol, null);
+        renderer.drawRect(shapeBeingMade, bordCol, null);
     }
 
 }
