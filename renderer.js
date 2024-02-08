@@ -18,6 +18,34 @@ export class Renderer {
         this.ctx.stroke();
     }
 
+    drawRect(rect, strokeColor, fillColor) {    //in () we have the input
+        this.ctx.save();            //inside {} we have code we can execute
+        this.ctx.translate(rect.position.x, rect.position.y);   //translate the canvas to position of rectangle
+        if (fillColor) {
+            this.ctx.fillStyle = fillColor; //set colors
+            this.ctx.fillRect(
+                - rect.width/2,
+                - rect.height/2,
+                rect.width,
+                rect.height,
+            );
+        }
+        this.ctx.strokeStyle = strokeColor;
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeRect(
+            - rect.width/2,
+            - rect.height/2,
+            rect.width,
+            rect.height,
+        );
+        this.ctx.restore();
+    }
+
+    drawFrame(objects, fillCol, bordCol) {
+        for (let i = 0; i<objects.length; i++) {
+            this.drawCircle(objects[i], bordCol, fillCol);
+        } 
+    }
     clearFrame() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
