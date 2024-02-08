@@ -47,7 +47,7 @@ export class Renderer {
         //i<objects.length is condition for running the loop
         //if i becomes >= to the length of the objects array stop drawing
         for (let i = 0; i<objects.length; i++) {    
-            this.drawCircle(objects[i], bordCol, fillCol);
+            this.drawCircle(objects[i].shape, bordCol, fillCol);
         } 
     }
 
