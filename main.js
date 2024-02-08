@@ -39,6 +39,10 @@ function updateAndDraw() {
         shapeBeingMade = null;
     }
 
+    for(let i=0; i<objects.length; i++) {
+        objects[i].updateShape(dt);
+    }
+    
     //draw objects
     renderer.clearFrame();
     renderer.drawFrame(objects, fillCol, bordCol);
