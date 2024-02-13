@@ -58,3 +58,19 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 }
+
+        //Assignment 3
+        document.addEventListener('mousedown', function(event) {
+            if (event.button == 2) {
+                for (let i = 0; i < objects.length; i++) {
+                    // calculate distance between mouse and objects[i]
+                    if (distance < threshold) {
+                        closestObject = objects[i];
+                    }
+                }
+            }
+        } );
+        function calculateDistance(x1, y1, x2, y2) {
+            // calculate and return the distance
+            return Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+        }
