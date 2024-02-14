@@ -46,10 +46,21 @@ export class Input {
     }
 
     mouseMove(e) {
+        this.window.clearTimeout(this.inputs.mouseTimer);
+
         const x = e.pageX - this.canv.offsetLeft;   //calculate the position of the mouse
         const y = e.pageY - this.canv.offsetTop;
         this.inputs.mouse.position.x = x;   //store the new position of the mouse when it moves
         this.inputs.mouse.position.y = y;
+        this.inputs.mouse.velocity.x = dx / this.dt;
+        this.inputs.mouse.velocity.y = dy / this.dt;
+        this.inputs.mouseTimer = this.window.setTimeout(function () {
+            this.inputs.mouse.velocity.x = 0; 
+            this.inputs.mouse.velocity.y = 0;
+        }.bind(this), 100);
+    }
+
+    resizeCanvas() {
     }
 
     resizeCanvas() {
