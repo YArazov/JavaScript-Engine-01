@@ -53,3 +53,4 @@ export class Vec {      //export allows us to import it in other files
 		return this.clone().subtract(v).magnitude();
 	}
 }	
+
