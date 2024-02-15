@@ -6,7 +6,7 @@ export class Input {
         this.window = win;
         this.dt = dt;
         this.inputs = {
-            mouse: {position: new Vec(0, 0), velocity: new Vec(0, 0), movedObject: null}, 
+            mouse: {position: new Vec(0, 0), velocity: new Vec(0, 0), movedObject: null, dragStart: new Vec(0, 0),dragStartTime: 0,}, 
             lclick: false, rclick: false, space: false, touches: 0
         };
         
@@ -28,7 +28,12 @@ export class Input {
     mouseDown(e) {
         if (e.button==0) {
             this.inputs.lclick = true;
-            
+            const clickedObject = findClosestObject(objects, this.inputs.mouse.position);
+            if (clickedObject) {
+                this.inputs.mouse.movedObject = clickedObject;
+                this.inputs.mouse.dragStart = this.inputs.mouse.position.clone();
+                this.inputs.mouse.dragStartTime = Date.now();
+            }
         } else if (e.button==2)	{
             this.inputs.rclick = true;
         }
@@ -37,6 +42,14 @@ export class Input {
     mouseUp(e) {
         if (e.button==0) {
             this.inputs.lclick = false;
+            if (this.inputs.mouse.movedObject) {
+                const dt = Date.now() - this.inputs.mouse.dragStartTime;
+                const vx = (this.inputs.mouse.position.x - this.inputs.mouse.dragStart.x) / dt;
+                const vy = (this.inputs.mouse.position.y - this.inputs.mouse.dragStart.y) / dt;
+
+                this.inputs.mouse.movedObject.velocity = new Vec(vx, vy);
+                this.inputs.mouse.movedObject = null;
+            }
         } else if (e.button==2)	{
             this.inputs.rclick = false;
         }
@@ -59,6 +72,10 @@ export class Input {
 
         this.inputs.mouse.position.x = x;
         this.inputs.mouse.position.y = y;
+        
+        if (this.inputs.mouse.movedObject) {
+            this.inputs.mouse.movedObject.position = this.inputs.mouse.position.clone();
+        }
         
         this.inputs.mouseTimer = this.window.setTimeout(function () {
             this.inputs.mouse.velocity.x = 0; 
