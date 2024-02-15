@@ -50,6 +50,8 @@ export class Input {
 
         const x = e.pageX - this.canv.offsetLeft;   //calculate the position of the mouse
         const y = e.pageY - this.canv.offsetTop;
+        const dx = x - this.inputs.mouse.position.x;
+        const dy = y - this.inputs.mouse.position.y;
         this.inputs.mouse.position.x = x;   //store the new position of the mouse when it moves
         this.inputs.mouse.position.y = y;
         this.inputs.mouse.velocity.x = dx / this.dt;
