@@ -1,3 +1,5 @@
+import {Circle} from './circle.js';
+
 export class Collisions {
 	constructor(x, y) {
 		this.collisions = [];
@@ -8,7 +10,7 @@ export class Collisions {
     }
     narrowPhaseDetection(objects){
         for(let i=0; i<objects.length; i++){
-            for(let j=0; i<objects.length; j++){
+            for(let j=0; j<objects.length; j++){
             if(j>i){
                 //detect collisions
                 //circle collisions
