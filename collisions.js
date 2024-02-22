@@ -16,13 +16,14 @@ export class Collisions {
                 //circle collisions
                 if(objects[i].shape instanceof Circle && 
                     objects[j].shape instanceof Circle){
-                        detectCollisionCircleCircle(objects[i],objects[j]);
+                        this.detectCollisionCircleCircle(objects[i],objects[j]);
                     }
                 //rectangle collisions
-
+                else if (objects[i].shape instanceof Rect && objects[j].shape instanceof Rect){
+                    this.detectCollisionRectangleRectangle(objects[i], objects[j]);
             }
             } 
-        }
+        }}
     }
     detectCollisionCircleCircle(o1,o2){
         const s1 = o1.shape;
@@ -52,4 +53,33 @@ export class Collisions {
             this.pushOffObjects(o1, o2, overlap, normal);
         }
     }
-}
+    detectCollisionRectangleRectangle(o1, o2) {
+        const r1 = o1.shape;
+        const r2 = o2.shape;
+
+        // Check if the rectangles overlap
+        if (r1.position.x < r2.position.x + r2.width &&
+            r1.position.x + r1.width > r2.position.x &&
+            r1.position.y < r2.position.y + r2.height &&
+            r1.position.y + r1.height > r2.position.y) {
+
+            // Calculate overlap along x-axis and y-axis
+            const overlapX = Math.min(r1.position.x + r1.width, r2.position.x + r2.width) - Math.max(r1.position.x, r2.position.x);
+            const overlapY = Math.min(r1.position.y + r1.height, r2.position.y + r2.height) - Math.max(r1.position.y, r2.position.y);
+            const overlap = Math.min(overlapX, overlapY);
+
+            // Resolve the collision
+            if (overlap === overlapX) {
+                // Move along the x-axis
+                const direction = r1.position.x < r2.position.x ? -1 : 1;
+                o1.shape.position.x -= overlap / 2 * direction;
+                o2.shape.position.x += overlap / 2 * direction;
+            } else {
+                // Move along the y-axis
+                const direction = r1.position.y < r2.position.y ? -1 : 1;
+                o1.shape.position.y -= overlap / 2 * direction;
+                o2.shape.position.y += overlap / 2 * direction;
+            }
+        }
+    }
+    }
