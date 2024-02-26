@@ -33,8 +33,17 @@ export class Collisions {
             this.collisions.push({
                 collidedPair: [o1, o2],
                 overlap: overlap,
-                normal: normal
+                normal: normal  //unit vector from s1 to s2
             });
         }
+    }
+
+    pushOffObjects(o1, o2, overlap, normal) {
+        o1.shape.position.subtract(normal.clone().multiply(overlap/2));
+        o2.shape.position.add(normal.clone().multiply(overlap/2));
+    }
+
+    resolveCollisions() {
+
     }
 }
