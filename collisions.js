@@ -24,6 +24,6 @@ export class Collisions {
         }
     }
     detectCollisionCircleCircle(o1, o2) {
-
+        
     }
 }
