@@ -1,4 +1,5 @@
-import { Circle } from "./circle";
+import {Circle} from './circle.js';
+
 export class Collisions {
 	constructor(x, y) {
 		this.collisions = [];
@@ -10,14 +11,14 @@ export class Collisions {
 
     narrowPhazeDetection(objects) {
         for(let i=0; i<objects.length; i++) {
-            for(let j=0; i<objects.length; j++) {
+            for(let j=0; j<objects.length; j++) {
                 if(j>i) {
                     //detect collisions
                     //circle collisions
-                    if(object[i].shape instanceof Circle &&
-                        object[j].shape instanceof Circle) {
-                            this.detectCollisionCircleCircle(object[i], object[j]);
-                        }
+                    if(objects[i].shape instanceof Circle &&
+                        objects[j].shape instanceof Circle) {
+                        this.detectCollisionCircleCircle(objects[i], objects[j]);
+                    }
                     //rectangle collisions
                 }
             }
