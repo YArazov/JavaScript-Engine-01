@@ -44,6 +44,11 @@ export class Collisions {
     }
 
     resolveCollisions() {
-
+        let collidedPair, overlap, normal, o1, o2;
+        for(let i=0; i<this.collisions,length; i++) {
+            ({collidedPair, overlap, normal} = this.collisions[i]);
+        [o1, o2] = collidedPair;
+        this.pushOffObjects(o1, o2, overlap, normal);
+        }
     }
 }
