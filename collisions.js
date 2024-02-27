@@ -69,6 +69,7 @@ export class Collisions {
                 normal: normal  //unit vector from s1 to s2
             });
         }
+        console.log(true)
     }
 
     pushOffObjects(o1, o2, overlap, normal) {
