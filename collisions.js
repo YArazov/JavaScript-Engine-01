@@ -60,16 +60,9 @@ export class Collisions {
             s1.right > s2.left &&
             s1.top < s2.bottom &&
             s1.bottom > s2.top) {
+            console.log(true);
             // The rectangles are colliding
-            const overlap = s1.radius + s2.radius - dist;
-            const normal = s2.position.clone().subtract(s1.position).normalize();
-            this.collisions.push({
-                collidedPair: [o1, o2],
-                overlap: overlap,
-                normal: normal  //unit vector from s1 to s2
-            });
         }
-        console.log(true)
     }
 
     pushOffObjects(o1, o2, overlap, normal) {
