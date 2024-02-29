@@ -10,6 +10,16 @@ export class Vec {
 		return this;
 	}
 	
+	setX(s) {	
+		this.x = s;
+		return this;
+	}
+
+	setY(s) {	
+		this.y = s;
+		return this;
+	}
+
 	add (v) {		//add a vector to this
 		this.x += v.x;
 		this.y += v.y;
@@ -49,6 +59,14 @@ export class Vec {
 		return this;
 	}
 	
+	rotate (angle) {		//rotate CCW by angle
+		const x = this.x;
+		const y = this.y;
+		this.x = x * Math.cos(angle) - y * Math.sin(angle);
+		this.y = x * Math.sin(angle) + y * Math.cos(angle);
+		return this;
+	}
+
 	//non-chainable
 	clone () {	//create a new vector with xy of this
 		return new Vec(this.x, this.y);
@@ -61,4 +79,13 @@ export class Vec {
 	distanceTo (v) {
 		return this.clone().subtract(v).magnitude();
 	}
+
+	drawPoint(ctx, strokeColor) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 5, 0, Math.PI*2, true);	//radius 5
+        ctx.closePath();
+        ctx.strokeStyle = strokeColor;
+        ctx.stroke();
+    }
 }
+
