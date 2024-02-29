@@ -10,6 +10,10 @@ export class Renderer {
     drawFrame(objects, fillCol, bordCol) {
         for (let i = 0; i<objects.length; i++) {
             objects[i].shape.draw(this.ctx, fillCol, bordCol);
+            objects[i].shape.aabb.draw(this.ctx, "red");
+            objects[i].shape.vertices.forEach(vertex => {
+                vertex.drawPoint(this.ctx, "black");
+            });
         } 
     }
 
