@@ -4,7 +4,7 @@ export class RigidBody {
 	constructor(shape) {
 		this.shape = shape; //rectangle or circle object {}  
 		this.velocity = new Vec(0, 0);
-		this.angularVelocity = 2;
+		this.angularVelocity = 100;
 	}	
 
 	updateShape(dt) {
