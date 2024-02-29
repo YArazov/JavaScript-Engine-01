@@ -122,3 +122,29 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
+
+const a = 1;
+const b = 2;
+if(a>0 || b<2) {
+    console.log(1);
+}
+
+if(a != 1 || b == 2) {
+    console.log(3);
+}
+
+let studentName = "Seikoh";
+let subject = "JavaScript";
+let score = 99;
+let excellent = true;
+
+if (studentName == "Seikoh" 
+&& score > 90 
+&& subject == "JavaScript") {
+    excellent = true;
+}
+if (studentName == "Kentaro" 
+&& score > 95 
+&& subject == "JavaScript") {
+    excellent = true;
+}
