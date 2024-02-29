@@ -85,7 +85,7 @@ function updateAndDraw() {
 
     //COLLISIONS
     col.clearCollisions();
-    col.narrowPhazeDetection(objects);  //detects and adds collision info in col.collisions
+    col.narrowPhaseDetection(objects);  //detects and adds collision info in col.collisions
     col.resolveCollisions();    //push off objects removing overlaps
 
     //draw objects
