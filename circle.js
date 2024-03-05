@@ -1,3 +1,5 @@
+import {Aabb} from './aabb.js';
+
 export class Circle {
 	constructor(pos, r) {
 		this.position = pos
