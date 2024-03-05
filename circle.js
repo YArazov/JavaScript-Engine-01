@@ -5,7 +5,16 @@ export class Circle {
 		this.position = pos
 		this.radius = r;
         this.orientation = 0;
+        this.aabb = new Aabb();
 	}
+
+    updateAabb () {
+        this.vertices = [];
+        this.aabb.min.x = this.position.x - this.radius;
+        this.aabb.min.y = this.position.y - this.radius;
+        this.aabb.max.x = this.position.x + this.radius;
+        this.aabb.max.y = this.position.y + this.radius;
+    }
 
 	draw(ctx, strokeColor, fillColor) {
         ctx.beginPath();

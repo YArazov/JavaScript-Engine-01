@@ -1,5 +1,6 @@
 import {Vec} from './vector.js';
 import {Rect} from './rect.js';
+import {Circle} from './circle.js';
 
 export class RigidBody {
 	constructor(shape) {
@@ -14,6 +15,9 @@ export class RigidBody {
 		this.shape.orientation += this.angularVelocity * dt;
 		if (this.shape instanceof Rect) {
 			this.shape.updateVertices();
+			this.shape.updateAabb();
+		}
+		if (this.shape instanceof Circle) {
 			this.shape.updateAabb();
 		}
 	} 
