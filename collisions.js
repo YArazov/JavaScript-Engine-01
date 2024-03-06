@@ -1,4 +1,5 @@
 import {Circle} from './circle.js';
+import {Rect} from './rect.js';
 
 export class Collisions {
 	constructor() {
@@ -34,6 +35,9 @@ export class Collisions {
     }
 
     detectAabbCollision(o1, o2) {
+       const s1 = o1.shape;
+        const s2 = o2.shape;
+        const dist = s1.position.distanceTo(s2.position);
         s1.left = s1.position.x - s1.width / 2;
         s1.right = s1.position.x + s1.width / 2;
         s1.top = s1.position.y - s1.height / 2;
@@ -43,10 +47,10 @@ export class Collisions {
         s2.top = s2.position.y - s2.height / 2;
         s2.bottom = s2.position.y + s2.height / 2;
         if (s1.left < s2.right &&
-            s1.right > s2.left &&
-            s1.top < s2.bottom &&
-            s1.bottom > s2.top) {
-            console.log(true);
+        s1.right > s2.left &&
+        s1.top < s2.bottom &&
+        s1.bottom > s2.top) {
+        console.log(true);
         }
     }
 
