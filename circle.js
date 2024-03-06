@@ -16,4 +16,4 @@ export class Circle {
         ctx.lineWidth = 3;
         ctx.stroke();
     }
-}
+}	

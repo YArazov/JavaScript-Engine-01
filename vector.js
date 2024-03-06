@@ -10,6 +10,16 @@ export class Vec {
 		return this;
 	}
 	
+	setX (x) {
+		this.x = x;
+		return this;
+	}
+
+	setY (y) {
+		this.y = y;
+		return this;
+	}
+
 	add (v) {		//add a vector to this
 		this.x += v.x;
 		this.y += v.y;
@@ -42,10 +52,18 @@ export class Vec {
 
 	normalize() {
 		const length = this.magnitude();
-		if (length > 0) {	
+		if(length > 0) {
 			this.x /= length;
 			this.y /= length;
 		}
+		return this;
+	}
+
+	rotate(angle) {	//in formula angle is Theta
+		const x = this.x;	//Ax
+		const y = this.y;
+		this.x = x * Math.cos(angle) - y * Math.sin(angle);	//Bx
+		this.y = x * Math.sin(angle) + y * Math.cos(angle);
 		return this;
 	}
 	
@@ -60,5 +78,14 @@ export class Vec {
 
 	distanceTo (v) {
 		return this.clone().subtract(v).magnitude();
+	}
+
+	drawPoint(ctx, strokeColor) {
+		ctx.beginPath();
+        ctx.arc(this.x, this.y, 5, 0, Math.PI*2, true);	//radius 5
+        ctx.closePath();
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 3;
+        ctx.stroke();
 	}
 }

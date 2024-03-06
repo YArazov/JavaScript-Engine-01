@@ -15,12 +15,12 @@ const renderer = new Renderer(canv, ctx);
 const fillCol = "darkGray";
 const bordCol = "black";
 
+const col = new Collisions();
+
 //inputs
 const inp = new Input(canv, window, dt);
 inp.resizeCanvas();
 inp.addListeners();
-
-const col = new Collisions();
 
 const objects = [];
 let shapeBeingMade = null;
@@ -85,8 +85,8 @@ function updateAndDraw() {
 
     //COLLISIONS
     col.clearCollisions();
-    col.narrowPhazeDetection(objects);  //detects and adds collision info in col.collisions
-    col.resolveCollisions();    //push off objects removing overlaps
+    col.narrowPhazeDetection(objects);  //detect all possible collisions
+    col.resolveCollisions();    //push off
 
     //draw objects
     renderer.clearFrame();
