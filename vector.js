@@ -9,17 +9,17 @@ export class Vec {
 		this.y = v.y;
 		return this;
 	}
-
-	setX(s) {	//set this vector's x value equal to a scalar
-		this.x = s;
-		return this;
-	}
-
-	setY(s) {
-		this.y = s;
-		return this;
-	}
 	
+	setX (x) {
+		this.x = x;
+		return this;
+	}
+
+	setY (y) {
+		this.y = y;
+		return this;
+	}
+
 	add (v) {		//add a vector to this
 		this.x += v.x;
 		this.y += v.y;
@@ -52,21 +52,21 @@ export class Vec {
 
 	normalize() {
 		const length = this.magnitude();
-		if (length > 0) {	
+		if(length > 0) {
 			this.x /= length;
 			this.y /= length;
 		}
 		return this;
 	}
-	
-	rotate (angle) {		//rotate CCW by angle
-		const x = this.x;
+
+	rotate(angle) {	//in formula angle is Theta
+		const x = this.x;	//Ax
 		const y = this.y;
-		this.x = x * Math.cos(angle) - y * Math.sin(angle);
+		this.x = x * Math.cos(angle) - y * Math.sin(angle);	//Bx
 		this.y = x * Math.sin(angle) + y * Math.cos(angle);
 		return this;
 	}
-
+	
 	//non-chainable
 	clone () {	//create a new vector with xy of this
 		return new Vec(this.x, this.y);
@@ -81,10 +81,11 @@ export class Vec {
 	}
 
 	drawPoint(ctx, strokeColor) {
-        ctx.beginPath();
+		ctx.beginPath();
         ctx.arc(this.x, this.y, 5, 0, Math.PI*2, true);	//radius 5
         ctx.closePath();
         ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 3;
         ctx.stroke();
-    }
+	}
 }

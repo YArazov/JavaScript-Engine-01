@@ -1,18 +1,17 @@
-import {Vec} from './vector.js';
-
-export class Aabb { //axis-aligned bounding box
-	constructor() {
-		this.min = new Vec(0, 0);
-        this.max = new Vec(0, 0);
-	}
+export class Aabb {
+	constructor(min, max) {
+		this.min = min;
+        this.max = max;
+	}	
 
     draw(ctx, strokeColor) {
-        //draws a rectangle box around the object
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 3;
         ctx.strokeRect(
-            this.min.x,
-            this.min.y,
-            this.max.x - this.min.x,
-            this.max.y - this.min.y
-        );   //x, y,(top left corner) width, height
+            this.min.x, //x
+            this.min.y,//y
+            this.max.x - this.min.x,//width
+            this.max.y - this.min.y//height
+        );
     }
 }

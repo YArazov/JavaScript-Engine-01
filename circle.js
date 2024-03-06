@@ -2,7 +2,6 @@ export class Circle {
 	constructor(pos, r) {
 		this.position = pos
 		this.radius = r;
-        this.orientation = 0;
 	}
 
 	draw(ctx, strokeColor, fillColor) {
@@ -17,4 +16,4 @@ export class Circle {
         ctx.lineWidth = 3;
         ctx.stroke();
     }
-}
+}	

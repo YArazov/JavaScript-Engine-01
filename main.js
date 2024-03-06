@@ -15,12 +15,12 @@ const renderer = new Renderer(canv, ctx);
 const fillCol = "darkGray";
 const bordCol = "black";
 
+const col = new Collisions();
+
 //inputs
 const inp = new Input(canv, window, dt);
 inp.resizeCanvas();
 inp.addListeners();
-
-const col = new Collisions();
 
 const objects = [];
 let shapeBeingMade = null;
@@ -85,8 +85,8 @@ function updateAndDraw() {
 
     //COLLISIONS
     col.clearCollisions();
-    col.narrowPhaseDetection(objects);  //detects and adds collision info in col.collisions
-    col.resolveCollisions();    //push off objects removing overlaps
+    col.narrowPhazeDetection(objects);  //detect all possible collisions
+    col.resolveCollisions();    //push off
 
     //draw objects
     renderer.clearFrame();
@@ -122,29 +122,3 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
-
-const a = 1;
-const b = 2;
-if(a>0 || b<2) {
-    console.log(1);
-}
-
-if(a != 1 || b == 2) {
-    console.log(3);
-}
-
-let studentName = "Seikoh";
-let subject = "JavaScript";
-let score = 99;
-let excellent = true;
-
-if (studentName == "Seikoh" 
-&& score > 90 
-&& subject == "JavaScript") {
-    excellent = true;
-}
-if (studentName == "Kentaro" 
-&& score > 95 
-&& subject == "JavaScript") {
-    excellent = true;
-}
