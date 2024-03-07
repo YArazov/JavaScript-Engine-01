@@ -15,12 +15,12 @@ const renderer = new Renderer(canv, ctx);
 const fillCol = "darkGray";
 const bordCol = "black";
 
+const col = new Collisions();
+
 //inputs
 const inp = new Input(canv, window, dt);
 inp.resizeCanvas();
 inp.addListeners();
-
-const col = new Collisions();
 
 const objects = [];
 let shapeBeingMade = null;
@@ -34,6 +34,12 @@ circleButton.onclick = function() {
 rectButton.onclick = function() {
     shapeSelected = 'r';
 };
+
+const input = new Input(canv, window, dt, objects);
+
+function checkBoundingBoxOverlap(aabb1, aabb2) {
+    return !(aabb1.max.x < aabb2.min.x || aabb1.min.x > aabb2.max.x || aabb1.max.y < aabb2.min.y || aabb1.min.y > aabb2.max.y);
+}
 
 //MAIN LOOP
 function updateAndDraw() {
@@ -76,7 +82,10 @@ function updateAndDraw() {
     }
     if(inp.inputs.mouse.movedObject) {
         moveObjectWithMouse(inp.inputs.mouse.movedObject);
+        // Update AABB when moving the object
+        inp.inputs.mouse.movedObject.shape.updateAabb();
     }
+
 
     //Lesson 03 - update object positions with velocity
     for(let i=0; i<objects.length; i++) {
@@ -85,8 +94,21 @@ function updateAndDraw() {
 
     //COLLISIONS
     col.clearCollisions();
-    col.narrowPhazeDetection(objects);  //detects and adds collision info in col.collisions
-    col.resolveCollisions();    //push off objects removing overlaps
+    col.narrowPhazeDetection(objects);  //detect all possible collisions
+    col.broadPhaseDetection(objects);
+    for (let i = 0; i < objects.length; i++) {
+        for (let j = i + 1; j < objects.length; j++) {
+            const object1 = objects[i];
+            const object2 = objects[j];
+    
+            // Check if bounding boxes of object1 and object2 overlap
+            if (checkBoundingBoxOverlap(object1.shape.aabb, object2.shape.aabb)) {
+                console.log(true); // Log true if bounding boxes overlap
+            }
+        }
+    }
+    
+    col.resolveCollisions();    //push off
 
     //draw objects
     renderer.clearFrame();
@@ -95,7 +117,12 @@ function updateAndDraw() {
     if (shapeBeingMade) {
         shapeBeingMade.draw(ctx, bordCol, null);
     }
-
+    if (shapeBeingMade) {
+        // Update the AABB for the circle
+        shapeBeingMade.updateAabb();
+        // Draw the circle and its bounding box
+        shapeBeingMade.draw(ctx, bordCol, null);
+    }
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
 
@@ -114,8 +141,20 @@ function findClosestObject(objects, vector) {
 }
 
 function moveObjectWithMouse(object) {
+    const newPos = inp.inputs.mouse.position;
+    const oldPos = object.shape.position;
+    const velocity = newPos.clone().subtract(oldPos).divide(dt);
+
     object.shape.position.copy(inp.inputs.mouse.position);
-    object.velocity.copy(inp.inputs.mouse.velocity);
+    object.shape.updateAabb(); // Update AABB of the object
+
+    object.velocity.copy(velocity); // Update velocity of the object
+
+    // If the object has a bounding box, update its position as well
+    if (object.shape.aabb) {
+        object.shape.aabb.min.add(velocity);
+        object.shape.aabb.max.add(velocity);
+    }
 }
 
 function addObject(shape) {

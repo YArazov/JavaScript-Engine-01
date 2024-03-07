@@ -1,7 +1,7 @@
 export class Aabb {
 	constructor(min, max) {
-		this.min = min;
-        this.max = max;
+		this.min = min|| new Vec(0, 0);
+        this.max = max|| new Vec(0, 0);
 	}	
 
     draw(ctx, strokeColor) {

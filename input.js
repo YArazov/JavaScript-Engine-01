@@ -1,10 +1,15 @@
 import {Vec} from './vector.js';
+import {Circle} from './circle.js';
+
+
 
 export class Input {
-    constructor(canv, win, dt) {
+    constructor(canv, win, dt, objects) {
         this.canv = canv;
         this.window = win;
         this.dt = dt;
+        this.objects = objects;
+
         this.inputs = {
             mouse: {position: new Vec(0, 0), velocity: new Vec(0, 0), movedObject: null}, 
             lclick: false, rclick: false, space: false, touches: 0
@@ -15,6 +20,8 @@ export class Input {
         this.onContextMenu = this.onContextMenu.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
         this.resizeCanvas = this.resizeCanvas.bind(this);
+
+        
     }
 
     addListeners() {
@@ -59,11 +66,20 @@ export class Input {
 
         this.inputs.mouse.position.x = x;
         this.inputs.mouse.position.y = y;
+
+    
         
         this.inputs.mouseTimer = this.window.setTimeout(function () {
             this.inputs.mouse.velocity.x = 0; 
             this.inputs.mouse.velocity.y = 0;
         }.bind(this), 100);
+
+        if (this.inputs.mouse.movedObject) {
+            const object = this.inputs.mouse.movedObject;
+            const newPos = new Vec(x, y); // x and y are the updated mouse coordinates
+            object.shape.position.copy(newPos);
+            object.shape.updateAabb(); // Update AABB after changing position
+        }
     }
 
     resizeCanvas() {
