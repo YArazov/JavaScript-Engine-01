@@ -35,21 +35,20 @@ export class Collisions {
     }
 
     detectAabbCollision(o1, o2) {
-       const s1 = o1.shape;
-        const s2 = o2.shape;
-        const dist = s1.position.distanceTo(s2.position);
-        s1.left = s1.position.x - s1.width / 2;
-        s1.right = s1.position.x + s1.width / 2;
-        s1.top = s1.position.y - s1.height / 2;
-        s1.bottom = s1.position.y + s1.height / 2;
-         s2.left = s2.position.x - s2.width / 2;
-        s2.right = s2.position.x + s2.width / 2;
-        s2.top = s2.position.y - s2.height / 2;
-        s2.bottom = s2.position.y + s2.height / 2;
-        if (s1.left < s2.right &&
-        s1.right > s2.left &&
-        s1.top < s2.bottom &&
-        s1.bottom > s2.top) {
+        const aabb1 = o1.shape.aabb;
+        const aabb2 = o2.shape.aabb;
+        const left1 = aabb1.min.x;
+        aabb1.right = aabb1.position.x + aabb1.width / 2;
+        aabb1.top = aabb1.position.y - aabb1.height / 2;
+        aabb1.bottom = aabb1.position.y + aabb1.height / 2;
+         aabb2.left = aabb2.position.x - aabb2.width / 2;
+        aabb2.right = aabb2.position.x + aabb2.width / 2;
+        aabb2.top = aabb2.position.y - aabb2.height / 2;
+        aabb2.bottom = aabb2.position.y + aabb2.height / 2;
+        if (aabb1.left < aabb2.right &&
+        aabb1.right > aabb2.left &&
+        aabb1.top < aabb2.bottom &&
+        aabb1.bottom > aabb2.top) {
         console.log(true);
         }
     }

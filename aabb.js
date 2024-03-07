@@ -2,8 +2,8 @@ import {Vec} from './vector.js';
 
 export class Aabb { //axis-aligned bounding box
 	constructor() {
-		this.min = new Vec(0, 0);
-        this.max = new Vec(0, 0);
+		this.min = new Vec(0, 0);   //top left corner 
+        this.max = new Vec(0, 0);   //bottom right corner
 	}
 
     draw(ctx, strokeColor) {
