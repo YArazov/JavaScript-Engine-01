@@ -38,17 +38,17 @@ export class Collisions {
         const aabb1 = o1.shape.aabb;
         const aabb2 = o2.shape.aabb;
         const left1 = aabb1.min.x;
-        aabb1.right = aabb1.position.x + aabb1.width / 2;
-        aabb1.top = aabb1.position.y - aabb1.height / 2;
-        aabb1.bottom = aabb1.position.y + aabb1.height / 2;
-         aabb2.left = aabb2.position.x - aabb2.width / 2;
-        aabb2.right = aabb2.position.x + aabb2.width / 2;
-        aabb2.top = aabb2.position.y - aabb2.height / 2;
-        aabb2.bottom = aabb2.position.y + aabb2.height / 2;
-        if (aabb1.left < aabb2.right &&
-        aabb1.right > aabb2.left &&
-        aabb1.top < aabb2.bottom &&
-        aabb1.bottom > aabb2.top) {
+        const right1 = aabb1.max.x;
+        const top1 = aabb1.min.y
+        const bottom1 = aabb1.max.y
+        const left2 = aabb2.min.x;
+        const right2 = aabb2.max.x;
+        const top2 = aabb2.min.y
+        const bottom2 = aabb2.max.y
+        if (left1 < right2 &&
+        right1 > left2 &&
+        top1 < bottom2 &&
+        bottom1 > top2) {
         console.log(true);
         }
     }
