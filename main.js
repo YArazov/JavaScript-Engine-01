@@ -4,6 +4,7 @@ import {Rect} from './rect.js';
 import {Input} from './input.js';
 import {RigidBody} from './rigidBody.js';
 import {Collisions} from './collisions.js';
+import {Vec} from './vector.js';
 
 const SMALLEST_RADIUS = 10;
 const dt = 1/60;    //time per frame
@@ -96,6 +97,18 @@ function updateAndDraw() {
         shapeBeingMade.draw(ctx, bordCol, null);
     }
 
+    //test vectors
+    const vector1 = new Vec(100, 200);
+    vector1.renderOrigin = new Vec(50, 60);
+    vector1.draw(ctx, "blue")
+
+    const vector2 = new Vec(200, 200);
+    vector2.renderOrigin = new Vec(50, 60);
+    vector2.draw(ctx, "red")
+
+    const sumVector1Vector2 = vector1.add(vector2);
+    sumVector1Vector2.renderOrigin = new Vec(50, 60);
+    sumVector1Vector2.draw(ctx, "black")
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
 
