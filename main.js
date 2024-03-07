@@ -122,3 +122,34 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
+
+let score = 0;
+let studentName = "Kentaro";
+switch (studentName) {
+    case "Seikoh": score = 100; break;
+    case "Darya": score = 99; break;
+    case "Kentaro": score = 100; break;
+    default: score = 0;
+}
+console.log(score);
+
+let grade;
+
+// switch (true) {
+//     case (score >= 90): grade = "A"; break;
+//     case (score >= 80): grade = "B"; break;
+//     case (score >= 70): grade = "C"; break;
+//     case (score >= 60): grade = "D"; break;
+//     default: grade = "F";
+// }
+// console.log(grade);
+
+switch (true) {
+    case (score < 60): grade = "F"; break;
+    case (score < 70): grade = "D"; break;
+    case (score < 80): grade = "C"; break;
+    case (score < 90): grade = "B"; break;
+    case (score < 100): grade = "A"; break;
+    default: grade = "A";
+}
+console.log(grade);
