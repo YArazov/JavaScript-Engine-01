@@ -108,7 +108,31 @@ function updateAndDraw() {
 
     const sumVector1Vector2 = vector1.add(vector2);
     sumVector1Vector2.renderOrigin = new Vec(50, 60);
-    sumVector1Vector2.draw(ctx, "black")
+    sumVector1Vector2.draw(ctx, "black");
+    ctx.fillText("Vector Addition", 50, 50);
+
+    const vector3 = new Vec(150, 160);
+    vector3.renderOrigin = new Vec(600, 200);
+    vector3.draw(ctx, "green");
+
+    const vector4 = new Vec(150, -160);
+    vector4.renderOrigin = new Vec(600, 200);
+    vector4.draw(ctx, "pink");
+
+    const differenceVector = vector3.clone().subtract(vector4);
+    differenceVector.renderOrigin = new Vec(600, 200);
+    differenceVector.draw(ctx, "purple");
+    ctx.fillText("Vector subtraction", 600, 180);
+
+    const multiplyVector = vector3.clone().multiply(vector4);
+    multiplyVector.renderOrigin = new Vec(400, 200);
+    multiplyVector.draw(ctx, "red");
+    ctx.fillText("Vector multiplication", 800, 180);
+
+    const divideVector = vector3.divide(vector4);
+    divideVector.renderOrigin = new Vec(600, 200);
+    divideVector.draw(ctx, "purple");
+    ctx.fillText("Vector division", 700, 180);
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
 
