@@ -119,20 +119,20 @@ function updateAndDraw() {
     vector4.renderOrigin = new Vec(600, 200);
     vector4.draw(ctx, "pink");
 
-    const differenceVector = vector3.clone().subtract(vector4);
-    differenceVector.renderOrigin = new Vec(600, 200);
-    differenceVector.draw(ctx, "purple");
-    ctx.fillText("Vector subtraction", 600, 180);
+    const differenceVector = vector4.clone().subtract(vector3);
+    differenceVector.renderOrigin = new Vec(550, 400);
+    differenceVector.draw(ctx, "orange");
+    ctx.fillText("Vector subtraction (pink - green)", 440, 70);
 
-    const multiplyVector = vector3.clone().multiply(vector4);
-    multiplyVector.renderOrigin = new Vec(400, 200);
+    const multiplyVector = vector3.clone().multiply(1.5);
+    multiplyVector.renderOrigin = new Vec(800, 200);
     multiplyVector.draw(ctx, "red");
-    ctx.fillText("Vector multiplication", 800, 180);
+    ctx.fillText("Vector multiplication (green * 1.5)", 830, 200);
 
-    const divideVector = vector3.divide(vector4);
-    divideVector.renderOrigin = new Vec(600, 200);
+    const divideVector = vector3.divide(2);
+    divideVector.renderOrigin = new Vec(650, 300);
     divideVector.draw(ctx, "purple");
-    ctx.fillText("Vector division", 700, 180);
+    ctx.fillText("Vector division (green/2)", 700, 400);
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
 
