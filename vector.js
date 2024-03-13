@@ -80,12 +80,31 @@ export class Vec {
 		return this.clone().subtract(v).magnitude();
 	}
 
-	drawPoint(ctx, strokeColor) {
-		ctx.beginPath();
-        ctx.arc(this.x, this.y, 5, 0, Math.PI*2, true);	//radius 5
-        ctx.closePath();
-        ctx.strokeStyle = strokeColor;
-        ctx.lineWidth = 3;
-        ctx.stroke();
+	draw (ctx, strokeColor) {
+		if (this.color) {
+			strokeColor = this.color;
+		}
+		if(this.renderOrigin) {
+			const renderEnd = this.renderOrigin.clone().add(this);
+			ctx.beginPath();
+			ctx.moveTo(this.renderOrigin.x, this.renderOrigin.y);
+			ctx.lineTo(renderEnd.x, renderEnd.y);
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = strokeColor;
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.arc(renderEnd.x, renderEnd.y, 5, 0, Math.PI*2, true);	//radius 5
+			ctx.closePath();
+			ctx.strokeStyle = strokeColor;
+			ctx.lineWidth = 3;
+			ctx.stroke();
+		} else {
+			ctx.beginPath();
+			ctx.arc(this.x, this.y, 5, 0, Math.PI*2, true);	//radius 5
+			ctx.closePath();
+			ctx.strokeStyle = strokeColor;
+			ctx.lineWidth = 3;
+			ctx.stroke();
+		}
 	}
 }
