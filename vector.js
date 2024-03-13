@@ -89,27 +89,11 @@ export class Vec {
 			ctx.moveTo(this.renderOrigin.x, this.renderOrigin.y);
 			ctx.lineTo(this.renderOrigin.x+this.x, this.renderOrigin.y+this.y);
 			ctx.stroke();
-			//head
-			ctx.beginPath();
-			ctx.arc(this.renderOrigin.x+this.x, this.renderOrigin.y+this.y, 2.5, 0, Math.PI*2, true);	//radius 5
-			ctx.closePath();
-			ctx.stroke();
-		} else {
-			//head
-			ctx.beginPath();
-			ctx.arc(this.x, this.y, 2.5, 0, Math.PI*2, true);	//radius 5
-			ctx.closePath();
-			ctx.stroke();
 		}
-		
-	}
-
-	drawPoint(ctx, strokeColor) {
+		//head
 		ctx.beginPath();
-        ctx.arc(this.x, this.y, 5, 0, Math.PI*2, true);	//radius 5
-        ctx.closePath();
-        ctx.strokeStyle = strokeColor;
-        ctx.lineWidth = 3;
-        ctx.stroke();
+		ctx.arc(this.x, this.y, 2.5, 0, Math.PI*2, true);	//radius 5
+		ctx.closePath();
+		ctx.stroke();
 	}
 }
