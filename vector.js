@@ -117,6 +117,10 @@ export class Vec {
 		return this;
 	}
 	
+	moveDistInDir (dist, dir) {	//dir = direction, dir is unit vector
+		return this.add(dir.clone().multiply(dist));
+	}
+
 	//non-chainable
 	clone () {	//create a new vector with xy of this
 		return new Vec(this.x, this.y);
