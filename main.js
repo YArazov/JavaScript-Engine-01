@@ -97,20 +97,6 @@ function updateAndDraw() {
         shapeBeingMade.draw(ctx, bordCol, null);
     }
 
-    //test vectors
-    const vector1 = new Vec(100, 200);
-    vector1.renderOrigin = new Vec(50, 60);
-    vector1.draw(ctx, "blue");
-
-    const vector2 = new Vec(200, 200);
-    vector2.renderOrigin = new Vec(50, 60);
-    vector2.draw(ctx, "red");
-
-    const sumVector1Vector2 = vector1.add(vector2);
-    sumVector1Vector2.renderOrigin = new Vec(50, 60);
-    sumVector1Vector2.draw(ctx, "black");
-
-
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
 
@@ -137,35 +123,3 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
-
-let score;
-let studentName = "Seikoh";
-switch (studentName) {
-    case "Darya": score = 99; break;
-    case "Seikoh": score = 90; break;
-    case "Kentaro": score = 84; break;
-    case "Aidan": score = 85; break;
-    default: score = 0;
-}
-
-console.log(score);
-
-let grade = "F"; 
-// switch(true) {
-//     case (score >= 90): grade = "A"; break;
-//     case (score >= 80): grade = "B"; break;
-//     case (score >= 70): grade = "C"; break;
-//     case (score >= 60): grade = "D"; break;
-//     default: grade = "F";
-// }
-
-switch(true) {
-    case (score < 60): grade = "F"; break;
-    case (score < 70): grade = "D"; break;
-    case (score < 80): grade = "C"; break;
-    case (score < 90): grade = "B"; break;
-    default: grade = "A";
-}
-
-console.log(grade);
-
