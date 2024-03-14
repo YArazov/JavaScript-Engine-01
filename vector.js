@@ -52,7 +52,7 @@ export class Vec {
 		return this;
 	}
 	
-	multiply (s) {
+	multiply (s) {	//s means scalar or a number to scale the vector
 		this.x *= s;
 		this.y *= s;
 		return this;
@@ -86,6 +86,40 @@ export class Vec {
 		this.y = x * Math.sin(angle) + y * Math.cos(angle);
 		return this;
 	}
+
+	rotateCW90 () {
+		const x = this.x;
+		this.x = -this.y;
+		this.y = x;
+		return this;
+	}
+
+	rotateCCW90 () {
+		const x = this.x;
+		this.x = this.y;
+		this.y = -x;
+		return this;
+	}
+
+	invert () {
+		this.x = -this.x;
+		this.y = -this.y;
+		return this;
+	}
+
+	invertX () {
+		this.x = -this.x;
+		return this;
+	}
+
+	invertY () {
+		this.y = -this.y;
+		return this;
+	}
+
+	moveDistInDir (dist, dir) {	//dir is unit vector
+		return this.add(dir.clone().multiply(dist));
+	}
 	
 	//non-chainable
 	clone () {	//create a new vector with xy of this
@@ -98,6 +132,10 @@ export class Vec {
 
 	distanceTo (v) {
 		return this.clone().subtract(v).magnitude();
+	}
+
+	dot (v) {
+		return this.x * v.x + this.y * v.y;
 	}
 
 	draw (ctx, strokeColor) {
