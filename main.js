@@ -123,3 +123,32 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
+
+const grades = [99, 98, 95, 93, 96];
+//first grade   0,  1,  2,  3,  4
+let firstGrade = grades[0];
+
+//change my 3rd grade to 97
+grades[2] = 97;
+
+let lastGrade = grades[grades.length - 1];
+
+// console.log(grades instanceof Array);
+
+for (let i = 0; i < grades.length; i++) {
+    //change each grade to 99
+    grades[i] = 99;
+}
+
+let newGrade = 61;
+grades.push({   //adds to the end of the array
+    name: "Yordan",
+    grade: "99"
+});
+
+grades.unshift(90); //adds an element at the start
+
+grades.splice(0, 1);    //start from element 0, and delete 1 element
+grades.splice(grades.length-1, 1);    //start from 5, delete 1 (delete the last)
+console.log(grades);
+
