@@ -152,3 +152,12 @@ grades.splice(0, 1);    //start from element 0, and delete 1 element
 grades.splice(grades.length-1, 1);    //start from 5, delete 1 (delete the last)
 console.log(grades);
 
+
+//test new vector methods
+const vector1 = new Vec (50, 30);
+vector1.renderOrigin = new Vec (60, 60);
+
+const vector2 = vector1.clone().rotateCCW90();
+vector2.renderOrigin = new Vec (60, 60);
+
+renderer.renderedAlways.push(vector1, vector2);
