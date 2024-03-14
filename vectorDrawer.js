@@ -18,11 +18,11 @@ export class VectorDrawer {
         addVector2.draw(this.ctx, "red");
 
         const addSumVector = addVector1.add(addVector2);
-        addSumVector.renderOrigin = new Vec(0, 0);
+        addSumVector.renderOrigin = new Vec(400, 200);
         addSumVector.draw(this.ctx, "black");
 
         // Draw bounding box around related vectors
-        this.drawBoundingBox([addVector1, addVector2, addSumVector], "Addition", 80, 180);
+        this.drawBoundingBox([addVector1, addVector2, addSumVector], "Addition", 80, 80);
     }
     drawVectorSubtracting() {
         const subVector1 = new Vec(100, 300);
@@ -34,11 +34,11 @@ export class VectorDrawer {
         subVector2.draw(this.ctx, "orange");
         
         const subDifferenceVector = subVector1.clone().subtract(subVector2);
-        subDifferenceVector.renderOrigin = new Vec(0, 0);
+        subDifferenceVector.renderOrigin = new Vec(400, 300);
         subDifferenceVector.draw(this.ctx, "purple");
         
         // Draw bounding box around related vectors
-        this.drawBoundingBox([subVector1, subVector2, subDifferenceVector], "Subtraction", 80, 180);
+        this.drawBoundingBox([subVector1, subVector2, subDifferenceVector], "Subtraction", 80, 700);
     }
     drawVectorMultiplying() {
         const mulVector = new Vec(100, 400);

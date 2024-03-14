@@ -135,34 +135,5 @@ function addObject(shape) {
     objects.push(object);
 } 
 
-// let score;
-// let studentName = "Seikoh";
-// switch (studentName) {
-//     case "Darya": score = 99; break;
-//     case "Seikoh": score = 90; break;
-//     case "Kentaro": score = 84; break;
-//     case "Aidan": score = 85; break;
-//     default: score = 0;
-// }
 
-// console.log(score);
-
-// let grade = "F"; 
-// switch(true) {
-//     case (score >= 90): grade = "A"; break;
-//     case (score >= 80): grade = "B"; break;
-//     case (score >= 70): grade = "C"; break;
-//     case (score >= 60): grade = "D"; break;
-//     default: grade = "F";
-// }
-
-// switch(true) {
-//     case (score < 60): grade = "F"; break;
-//     case (score < 70): grade = "D"; break;
-//     case (score < 80): grade = "C"; break;
-//     case (score < 90): grade = "B"; break;
-//     default: grade = "A";
-// }
-
-// console.log(grade);
 
