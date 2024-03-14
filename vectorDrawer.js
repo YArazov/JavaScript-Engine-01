@@ -9,39 +9,39 @@ export class VectorDrawer {
     
     drawVectorAdding() {
         // Define vectors for addition operation
-        const addVector1 = new Vec(100, 200);
-        addVector1.renderOrigin = new Vec(0, 0);
+        const addVector1 = new Vec(150, 220);
+        addVector1.renderOrigin = new Vec(50, 240);
         addVector1.draw(this.ctx, "blue");
 
-        const addVector2 = new Vec(250, 200);
-        addVector2.renderOrigin = new Vec(0, 0);
+        const addVector2 = new Vec(50, 240);
+        addVector2.renderOrigin = new Vec(250, 240);
         addVector2.draw(this.ctx, "red");
 
         const addSumVector = addVector1.add(addVector2);
-        addSumVector.renderOrigin = new Vec(400, 200);
+        addSumVector.renderOrigin = new Vec(0, 0);
         addSumVector.draw(this.ctx, "black");
 
         // Draw bounding box around related vectors
-        this.drawBoundingBox([addVector1, addVector2, addSumVector], "Addition", 80, 80);
+        this.drawBoundingBox([addVector1, addVector2, addSumVector], "Addition", 180, 80);
     }
     drawVectorSubtracting() {
-        const subVector1 = new Vec(100, 300);
+        const subVector1 = new Vec(50, 420);
         subVector1.renderOrigin = new Vec(0, 0);
         subVector1.draw(this.ctx, "green");
         
-        const subVector2 = new Vec(250, 300);
+        const subVector2 = new Vec(250, 420);
         subVector2.renderOrigin = new Vec(0, 0);
         subVector2.draw(this.ctx, "orange");
         
         const subDifferenceVector = subVector1.clone().subtract(subVector2);
-        subDifferenceVector.renderOrigin = new Vec(400, 300);
+        subDifferenceVector.renderOrigin = new Vec(0, 0);
         subDifferenceVector.draw(this.ctx, "purple");
         
         // Draw bounding box around related vectors
-        this.drawBoundingBox([subVector1, subVector2, subDifferenceVector], "Subtraction", 80, 700);
+        this.drawBoundingBox([subVector1, subVector2, subDifferenceVector], "Subtraction", 380, 80);
     }
     drawVectorMultiplying() {
-        const mulVector = new Vec(100, 400);
+        const mulVector = new Vec(50, 620);
         mulVector.renderOrigin = new Vec(0, 0);
         mulVector.draw(this.ctx, "cyan");
         
@@ -50,10 +50,10 @@ export class VectorDrawer {
         multipliedVector.draw(this.ctx, "magenta");
         
         // Draw bounding box around related vectors
-        this.drawBoundingBox([mulVector, multipliedVector], "Multiplication", 80, 180);
+        this.drawBoundingBox([mulVector, multipliedVector], "Multiplication", 580, 80);
     }
     drawVectorRotating() {
-        const rotVector = new Vec(100, 500);
+        const rotVector = new Vec(50, 820);
         rotVector.renderOrigin = new Vec(0, 0);
         rotVector.draw(this.ctx, "yellow");
         
@@ -62,7 +62,7 @@ export class VectorDrawer {
         rotatedVector.draw(this.ctx, "brown");
         
         // Draw bounding box around related vectors
-        this.drawBoundingBox([rotVector, rotatedVector], "Rotation", 80, 180);
+        this.drawBoundingBox([rotVector, rotatedVector], "Rotation", 780, 80);
     }
 
     // Draw bounding box around related vectors and add title
