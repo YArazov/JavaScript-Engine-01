@@ -12,7 +12,7 @@ const dt = 1/60;    //time per frame
 const canv = document.getElementById("canvas");
 const ctx = canv.getContext("2d");
 
-const renderer = new Renderer(canv, ctx);
+export const renderer = new Renderer(canv, ctx);
 const fillCol = "darkGray";
 const bordCol = "black";
 
@@ -96,7 +96,6 @@ function updateAndDraw() {
     if (shapeBeingMade) {
         shapeBeingMade.draw(ctx, bordCol, null);
     }
-
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
 
@@ -123,41 +122,3 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
-
-const grades = [99, 98, 95, 93, 96];
-//first grade   0,  1,  2,  3,  4
-let firstGrade = grades[0];
-
-//change my 3rd grade to 97
-grades[2] = 97;
-
-let lastGrade = grades[grades.length - 1];
-
-// console.log(grades instanceof Array);
-
-for (let i = 0; i < grades.length; i++) {
-    //change each grade to 99
-    grades[i] = 99;
-}
-
-let newGrade = 61;
-grades.push({   //adds to the end of the array
-    name: "Yordan",
-    grade: "99"
-});
-
-grades.unshift(90); //adds an element at the start
-
-grades.splice(0, 1);    //start from element 0, and delete 1 element
-grades.splice(grades.length-1, 1);    //start from 5, delete 1 (delete the last)
-console.log(grades);
-
-
-//test new vector methods
-const vector1 = new Vec (50, 30);
-vector1.renderOrigin = new Vec (60, 60);
-
-const vector2 = vector1.clone().rotateCCW90();
-vector2.renderOrigin = new Vec (60, 60);
-
-renderer.renderedAlways.push(vector1, vector2);
