@@ -64,6 +64,9 @@ export class Collisions {
         renderer.renderedNextFrame.push(closestVertex);
         return closestVertex;
     }
+    /*findClosestVertex takes an array of vertices and a center point. 
+    It calculates the distance of each vertex to the center, and keeps track of the vertex with the smallest distance. 
+    This closest vertex is then added to a rendering queue and returned by the function.*/
 
     pushOffObjects(o1, o2, overlap, normal) {
         o1.shape.position.subtract(normal.clone().multiply(overlap/2));
