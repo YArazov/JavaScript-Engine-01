@@ -97,6 +97,20 @@ function updateAndDraw() {
         shapeBeingMade.draw(ctx, bordCol, null);
     }
 
+    //test vectors
+    const vector1 = new Vec(100, 200);
+    vector1.renderOrigin = new Vec(50, 60);
+    vector1.draw(ctx, "orange");
+
+    const vector2 = new Vec(200, 200);
+    vector2.renderOrigin = new Vec(50, 60);
+    vector2.draw(ctx, "black");
+
+    const sumVector1Vector2 = vector1.add(vector2);
+    sumVector1Vector2.renderOrigin = new Vec(50, 60);
+    sumVector1Vector2.draw(ctx, "grren");
+
+
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
 
@@ -124,40 +138,56 @@ function addObject(shape) {
     objects.push(object);
 } 
 
-const grades = [99, 98, 95, 93, 96];
-//first grade   0,  1,  2,  3,  4
-let firstGrade = grades[0];
-
-//change my 3rd grade to 97
-grades[2] = 97;
-
-let lastGrade = grades[grades.length - 1];
-
-// console.log(grades instanceof Array);
-
-for (let i = 0; i < grades.length; i++) {
-    //change each grade to 99
-    grades[i] = 99;
+let score;
+let studentName = "Seikoh";
+switch (studentName) {
+    case "Darya": score = 99; break;
+    case "Seikoh": score = 90; break;
+    case "Kentaro": score = 84; break;
+    case "Aidan": score = 85; break;
+    default: score = 0;
 }
 
+console.log(score);
+
+let grade = "F"; 
+// switch(true) {
+//     case (score >= 90): grade = "A"; break;
+//     case (score >= 80): grade = "B"; break;
+//     case (score >= 70): grade = "C"; break;
+//     case (score >= 60): grade = "D"; break;
+//     default: grade = "F";
+// }
+
+switch(true) {
+    case (score < 60): grade = "F"; break;
+    case (score < 70): grade = "D"; break;
+    case (score < 80): grade = "C"; break;
+    case (score < 90): grade = "B"; break;
+    default: grade = "A";
+}
+
+console.log(grade);
 let newGrade = 61;
-grades.push({   //adds to the end of the array
-    name: "Yordan",
-    grade: "99"
+grades.push({   //add to the end of the array
+    name: "ken",
+    grade: "55"
 });
 
 grades.unshift(90); //adds an element at the start
 
-grades.splice(0, 1);    //start from element 0, and delete 1 element
-grades.splice(grades.length-1, 1);    //start from 5, delete 1 (delete the last)
+grades.splice(0, 1);    //start from element 0, and delete one element
+grades.splice(grades.length -1, 1);    //start from 5, delete 1 (delete the last)
 console.log(grades);
 
 
 //test new vector methods
 const vector1 = new Vec (50, 30);
-vector1.renderOrigin = new Vec (60, 60);
+vector1.renderOrigin = new Vec(60, 60);
 
 const vector2 = vector1.clone().rotateCCW90();
-vector2.renderOrigin = new Vec (60, 60);
+vector2.renderOrigin = new Vec(60, 60);
 
 renderer.renderedAlways.push(vector1, vector2);
+
+    
