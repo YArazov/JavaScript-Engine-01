@@ -122,4 +122,3 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
-
