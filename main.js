@@ -12,6 +12,7 @@ const dt = 1/60;    //time per frame
 
 const canv = document.getElementById("canvas");
 const ctx = canv.getContext("2d");
+const vectorDrawer = new VectorDrawer(canv, ctx);
 
 const renderer = new Renderer(canv, ctx);
 const fillCol = "darkGray";
@@ -98,10 +99,7 @@ function updateAndDraw() {
         shapeBeingMade.draw(ctx, bordCol, null);
     }
 
-    
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    const vectorDrawer = new VectorDrawer(canv, ctx);
+
 
     // Call the methods in the VectorDrawer class
     vectorDrawer.drawVectorAdding();
