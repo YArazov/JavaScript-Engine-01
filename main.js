@@ -139,12 +139,12 @@ function addObject(shape) {
 } 
 
 let score;
-let studentName = "Seikoh";
+let studentName = "kentaro";
 switch (studentName) {
-    case "Darya": score = 99; break;
+    case "Darya": score = 85; break;
     case "Seikoh": score = 90; break;
-    case "Kentaro": score = 84; break;
-    case "Aidan": score = 85; break;
+    case "Hitomi": score = 82; break;
+    case "Aidan": score = 55; break;
     default: score = 0;
 }
 
@@ -171,7 +171,7 @@ console.log(grade);
 let newGrade = 61;
 grades.push({   //add to the end of the array
     name: "ken",
-    grade: "55"
+    grade: "10"
 });
 
 grades.unshift(90); //adds an element at the start
@@ -182,11 +182,11 @@ console.log(grades);
 
 
 //test new vector methods
-const vector1 = new Vec (50, 30);
-vector1.renderOrigin = new Vec(60, 60);
+const vector1 = new Vec (20, 80);
+vector1.renderOrigin = new Vec(50, 20);
 
 const vector2 = vector1.clone().rotateCCW90();
-vector2.renderOrigin = new Vec(60, 60);
+vector2.renderOrigin = new Vec(10, 90);
 
 renderer.renderedAlways.push(vector1, vector2);
 
