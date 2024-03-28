@@ -162,3 +162,83 @@ function addObject(shape) {
 // SeikohGrades.English = 99;
 
 // console.log(SeikohGrades.averageGrade());
+
+//lesson 9 debugging
+//1. conseoldß
+let a = t5; 
+let b = 3;
+let c = "one"
+let d = a+b+c;
+console.log(d);
+
+var animals = [
+    { animal: 'Horse', name: 'Henry', age: 43 },
+    { animal: 'Dog', name: 'Fred', age: 13 },
+    { animal: 'Cat', name: 'Frodo', age: 18 }
+];
+ 
+console.table(animals);
+
+let launchReady = false;
+let fuelLevel = 17000;
+
+if (fuelLevel >= 20000 ){
+   console.log('Fuel level cleared.');
+   launchReady = true;
+} else {
+   console.log('WARNING: Insufficient fuel!');
+   launchReady = false;
+}
+
+let launchReady = false;
+let crewStatus = true;
+let computerStatus = 'green';
+
+if (crewStatus && computerStatus === 'green') {
+   console.log('Crew & computer cleared.');
+   launchReady = true;
+} else {
+   console.log('WARNING: Crew or computer not ready!');
+   launchReady = false;
+}
+
+if (launchReady) {
+   console.log("10, 9, 8, 7, 6, 5, 4, 3, 2, 1...");
+   console.log("Fed parrot...");
+   console.log("Ignition...");
+   console.log("Liftoff!");
+} else {
+   console.log("Launch scrubbed.");
+
+  
+  
+   let launchReady = false;
+let fuelLevel = 17000;
+let crewStatus = true;
+let computerStatus = 'green';
+
+if (fuelLevel >= 20000) {
+   console.log('Fuel level cleared.');
+   launchReady = true;
+} else {
+   console.log('WARNING: Insufficient fuel!');
+   launchReady = false;
+}
+
+if (crewStatus && computerStatus === 'green'){
+   console.log('Crew & computer cleared.');
+   launchReady = true;
+} else {
+   console.log('WARNING: Crew or computer not ready!');
+   launchReady = false;
+}
+
+if (launchReady) {
+   console.log('10, 9, 8, 7, 6, 5, 4, 3, 2, 1...');
+   console.log('Liftoff!');
+} else {
+   console.log('Launch scrubbed.');
+}
+}
+
+
