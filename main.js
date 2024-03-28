@@ -156,4 +156,39 @@ for(var i = 0; i < 100000; i++){
  
 console.timeEnd('Timer1');
 
+//debugging practice
+let computerAndCrewReady = false;
+let fuelReady = false;
+
+let fuelLevel = 30000;
+let crewStatus = true;
+let computerStatus = 'green';
+
+
+if (fuelLevel >= 20000) {
+   console.log('Fuel level cleared.');
+   fuelReady = true;
+} else {
+   console.log('WARNING: Insufficient fuel!');
+   fuelReady = false;
+}
+
+
+if (crewStatus && computerStatus === 'green'){
+   console.log('Crew & computer cleared.');
+   computerAndCrewReady = true;
+} else {
+   console.log('WARNING: Crew or computer not ready!');
+   computerAndCrewReady = false;
+}
+
+
+if (computerAndCrewReady && fuelReady) {
+   console.log('10, 9, 8, 7, 6, 5, 4, 3, 2, 1...');
+   console.log('Liftoff!');
+} else {
+   console.log('Launch scrubbed.');
+}
+
+
 
