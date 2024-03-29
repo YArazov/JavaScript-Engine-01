@@ -86,7 +86,7 @@ function updateAndDraw() {
 
     //COLLISIONS
     col.clearCollisions();
-    col.narrowPhazeDetection(objects);  //detect all possible collisions
+    col.narrowPhaseDetection(objects);  //detect all possible collisions
     col.resolveCollisions();    //push off
 
     //draw objects
@@ -123,42 +123,72 @@ function addObject(shape) {
     objects.push(object);
 } 
 
-// //test objects
-// const grades = {
-//     //key : value ,
-//     math: 95,
-//     science: 93,
-//     English: 96,
-//     history: 91,
-//     averageGrade: function() 
-//     {
-//         return (this.math + this.science + this.English + this.history) / 4
-//     }
-// };
-// console.log("My English grade is "+grades.English);
-// //case sensitive English is not the same as english
+//lesson 9 Debugging
+//1. console
+// let a = 5;
+// let b = 3;
+// let c = "one";
+// // console.log(a);
+// // console.info(a);
+// // console.debug(a);
+// // console.warn(a);
+// // console.error(a);
 
-// grades.history = 97;
-// grades["science"] = 99;
-// console.log(grades);
-// console.log(grades.averageGrade());
+// let d = a + b - c;
+//     // debugger;
+// console.log(d);
 
-// class studentGrades {
-//     constructor (name, m, s, e, h) { //used with keyword new
-//         this.studentName = name;
-//         this.math = m;
-//         this.science = s;
-//         this.English = e;
-//         this.history = h;
-//     }
+// var animals = [
+//     { animal: 'Horse', name: 'Henry', age: 43 },
+//     { animal: 'Dog', name: 'Fred', age: 13 },
+//     { animal: 'Cat', name: 'Frodo', age: 18 }
+// ];
+ 
+// console.table(animals);
 
-//     averageGrade () {
-//         return (this.math + this.science + this.English + this.history) / 4
-//     }
+// console.time('Timer1');
+ 
+// var items = [];
+ 
+// for(var i = 0; i < 100000; i++){
+//    items.push({index: i});
+// }
+ 
+// console.timeEnd('Timer1');
+
+// //debugging practice
+// let computerAndCrewReady = false;
+// let fuelReady = false;
+
+// let fuelLevel = 30000;
+// let crewStatus = true;
+// let computerStatus = 'green';
+
+
+// if (fuelLevel >= 20000) {
+//    console.log('Fuel level cleared.');
+//    fuelReady = true;
+// } else {
+//    console.log('WARNING: Insufficient fuel!');
+//    fuelReady = false;
 // }
 
-// const SeikohGrades = new studentGrades ("Seikoh", 95, 96, 94, 98);
 
-// SeikohGrades.English = 99;
+// if (crewStatus && computerStatus === 'green'){
+//    console.log('Crew & computer cleared.');
+//    computerAndCrewReady = true;
+// } else {
+//    console.log('WARNING: Crew or computer not ready!');
+//    computerAndCrewReady = false;
+// }
 
-// console.log(SeikohGrades.averageGrade());
+
+// if (computerAndCrewReady && fuelReady) {
+//    console.log('10, 9, 8, 7, 6, 5, 4, 3, 2, 1...');
+//    console.log('Liftoff!');
+// } else {
+//    console.log('Launch scrubbed.');
+// }
+
+
+
