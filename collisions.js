@@ -163,16 +163,15 @@ export class Collisions {
     detectCollisionPolygonPolygon (o1, o2) {
         const vertices1 = o1.shape.vertices;
         const vertices2 = o2.shape.vertices;
-        let axis, smallestOverlap, collisionNormal;
-
+        let smallestOverlap, collisionNormal, axis;
         smallestOverlap = Number.MAX_VALUE;
+
         const vector1to2 = o2.shape.position.clone().subtract(o1.shape.position);
 
-        //find edges of polygon 1 and create axes to test collisions
         const edges1 = this.calculateEdges(vertices1);
         const axes1 = [];
         for (let i = 0; i < edges1.length; i++) {
-            axes1.push(edges1.rotateCCW90().normalize());
+            axes1.push(edges1[i].rotateCCW90().normalize());
         }
         //check if axes are not on the back side of rectangle
         for (let i = 0; i < axes1.length; i++) {
@@ -183,7 +182,7 @@ export class Collisions {
             }
             //calculate overlap on axis
             const { overlap, normal } = this.calculateOverlap(vertices1, vertices2, axis);
-        
+            
             if (overlap <= 0) {
                 return; // Separating axis found, no collision
             } else if (overlap < smallestOverlap) {
@@ -193,11 +192,11 @@ export class Collisions {
         }
 
         //object2 edges
-        const vector2to1 = vector1to2.clone.invert();
+        const vector2to1 = vector1to2.clone().invert();
         const edges2 = this.calculateEdges(vertices2);
         const axes2 = [];
         for (let i = 0; i < edges2.length; i++) {
-            axes1.push(edges2.rotateCCW90().normalize());
+            axes2.push(edges2[i].rotateCCW90().normalize());
         }
         for (let i = 0; i < axes2.length; i++) {
             const axis = axes2[i];
@@ -212,6 +211,8 @@ export class Collisions {
                 collisionNormal = normal;
             }
         }
+        
+        const normal = this.correctNormalDirection(collisionNormal, o1, o2);
 
         this.collisions.push({
             collidedPair: [o1, o2],
@@ -246,7 +247,15 @@ export class Collisions {
         };
     }
 
-    
+    correctNormalDirection(normal, o1, o2) {
+        const vecO1O2 = o2.shape.position.clone().subtract(o1.shape.position);
+        const dot = normal.dot(vecO1O2);
+        if (dot >= 0) {
+            return normal;
+        } else {
+            return normal.invert();
+        }
+    }
 
     pushOffObjects(o1, o2, overlap, normal) {
         o1.shape.position.subtract(normal.clone().multiply(overlap/2));
