@@ -163,7 +163,7 @@ export class Collisions {
     detectCollisionPolygonPolygon (o1, o2) {
         const vertices1 = o1.shape.vertices;
         const vertices2 = o2.shape.vertices;
-        let axis, smallestOverlap, currentOverlap, collisionNormal;
+        let axis, smallestOverlap, collisionNormal;
 
         smallestOverlap = Number.MAX_VALUE;
 
