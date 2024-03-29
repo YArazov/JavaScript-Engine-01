@@ -166,7 +166,8 @@ export class Collisions {
         let axis, smallestOverlap, collisionNormal;
 
         smallestOverlap = Number.MAX_VALUE;
-
+        const vector1to2 = o2.shape.position.clone().subtract(o1.shape.position);
+        
         //find edges of polygon 1 and create axes to test collisions
         const axes1 = this.calculateEdges(vertices1);
         for (let i=0; i<axes1.length; i++) {
