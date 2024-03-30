@@ -4,11 +4,21 @@ import {renderer} from './main.js';
 
 export class Collisions {
     constructor() {
+        this.possibleCollisions = [];
         this.collisions = [];
     }
 
     clearCollisions() {
+        this.possibleCollisions = [];
         this.collisions = [];
+    }
+
+    broadPhazeDetection (objects) {
+        for(let i=0; i<objects.length; i++) {
+            for(let j=i+1; j<objects.length; j++) {
+                this.detectAabbCollision(objects[i], objects[j]);
+            }
+        }
     }
 
     narrowPhazeDetection(objects) {
@@ -22,14 +32,25 @@ export class Collisions {
                     }   //later detect rectangle rectangle here
                     else if (objects[i].shape instanceof Circle && 
                         objects[j].shape instanceof Rect) {
-                            this.findClosestVertex(objects[j].shape.vertices, objects[i].shape.position);
+                            this.detectCollisionCirclePolygon(objects[i], objects[j]);
                     }
                     else if (objects[i].shape instanceof Rect && 
                         objects[j].shape instanceof Circle) {
-                            this.findClosestVertex(objects[i].shape.vertices, objects[j].shape.position);
+                            this.detectCollisionCirclePolygon(objects[j], objects[i]);
                     }
                 }
             }
+        }
+    }
+
+    detectAabbCollision(o1, o2) {
+        let o1aabb = o1.shape.aabb;
+        let o2aabb = o2.shape.aabb;
+        if (o1aabb.max.x > o2aabb.min.x &&
+            o1aabb.max.y > o2aabb.min.y &&
+            o2aabb.max.x > o1aabb.min.x &&
+            o2aabb.max.y > o1aabb.min.y) {
+            this.possibleCollisions.push([o1, o2]);
         }
     }
 
@@ -50,6 +71,102 @@ export class Collisions {
     }
 
     //detect rectangles collisions
+    detectCollisionCirclePolygon (c, p) {
+        const vertices = p.shape.vertices;
+        const cShape = c.shape;
+        let overlap, normal, axis;
+
+        overlap = Number.MAX_VALUE;
+
+        //find overlaps for axes perpendicular to polygon edges
+        for (let i = 0; i < vertices.length; i++) {
+            const v1 = vertices[i];
+            const v2 = vertices[(i+1)%vertices.length];
+            axis = v2.clone().subtract(v1).rotateCCW90().normalize();
+            const [min1, max1] = this.projectVertices(vertices, axis);
+            const [min2, max2] = this.projectCircle(cShape.position, cShape.radius, axis);
+
+            if (min2 >= max1 || min1 >= max2){
+                //we dont have collision
+                return;
+            }
+    
+        const axisOverlap = Math.min(max2-min1, max1-min2); //finds smallest overlap
+        if (overlap >= axisOverlap) {
+            overlap = axisOverlap;
+            normal = axis;
+        }
+    }
+    //The detectCollisionCirclePolygon function checks for a collision between a circle and a polygon. 
+    //If there's no overlap on any axis, there's no collision. 
+    //If there is, it finds the smallest overlap and the corresponding axis.
+
+    //find overlaps for axis from polygon closest vertex to center of circle
+    const closestVertex = this.findClosestVertex(vertices, cShape.position); //This line finds the vertex of the polygon that is closest to the center of the circle.
+    axis = closestVertex.clone().subtract(cShape.position).normalize(); //Calculates the normalized direction vector (axis) from the center of the circle to the closest vertex.
+
+    const [min1, max1] = this.projectVertices(vertices, axis);
+    const [min2, max2] = this.projectCircle(cShape.position, cShape.radius, axis); //roject the vertices of the polygon and the circle onto the axis.
+    if (min1 >= max2 || min2 >= max1) {
+        return;
+    }   //Checks if the projections of the polygon and the circle on the axis overlap.
+
+    const axisOverlap = Math.min(max2-min1, max1-min2); //find on which axis we have the smallest overlap
+    if (axisOverlap < overlap) {
+        overlap = axisOverlap;
+        normal = axis;
+    }   //Checks if the current overlap is smaller than the smallest overlap found so far.
+
+    //set correct direction of the collision normal 
+    //(direction of collision from 1st to 2nd object)
+    const vec1to2 = p.shape.position.clone().subtract(c.shape.position);  //gives correct direction for normal
+    if (normal.dot(vec1to2) < 0) { 
+        normal.invert();
+    }
+
+    //add collision info
+    this.collisions.push({
+        collidedPair: [c, p],
+        overlap: overlap,
+        normal: normal,       //direction from c1 to c2
+    });
+
+    }
+
+    projectVertices (vertices, axis) {
+        let min, max;
+        min = vertices[0].dot(axis);    //first vertex projection
+        max = min;  //save it as both min and max
+
+        for (let i = 1; i < vertices.length; i++) {
+            const proj = vertices[i].dot(axis); //projections for all other vertices
+            if (proj < min) {
+                min = proj;
+            }
+            if (proj > max) {
+                max = proj;
+            }
+        }
+
+        return [min, max];  //smallest and largest projection
+        }
+
+    projectCircle (center, radius, axis) {
+        let min, max;
+        //points on circle distance 1 radius from center
+        const points = [center.clone().moveDistInDir(radius, axis), center.clone().moveDistInDir(-radius, axis)];
+        
+        min = points[0].dot(axis);  //project points
+        max = points[1].dot(axis);
+        
+        if (min > max) {    //swap min and max if we chose wrong
+            const t = min;
+            min = max;
+            max = t;
+        }
+
+        return [min, max];
+    }
 
     findClosestVertex (vertices, center) {  //returns the i of the closest of vertices to a center point
         let minDist = Number.MAX_VALUE;
@@ -64,11 +181,15 @@ export class Collisions {
         renderer.renderedNextFrame.push(closestVertex);
         return closestVertex;
     }
+    //The findClosestVertex function calculates the distance from a given point to each vertex in an array. 
+    //It keeps track of the smallest distance and the corresponding vertex. 
+    //It then returns the vertex that is closest to the given point.
 
     pushOffObjects(o1, o2, overlap, normal) {
         o1.shape.position.subtract(normal.clone().multiply(overlap/2));
         o2.shape.position.add(normal.clone().multiply(overlap/2));
     }
+    //The pushOffObjects function adjusts the positions of two objects (o1 and o2) to resolve a collision.
 
     resolveCollisions() {
         let collidedPair, overlap, normal, o1, o2;
@@ -78,4 +199,6 @@ export class Collisions {
             this.pushOffObjects(o1, o2, overlap, normal);
         }
     }
+    //For each collision, it extracts the pair of collided objects, the overlap distance, and the collision normal. 
+    //It then calls pushOffObjects to resolve each collision.
 }
