@@ -79,8 +79,30 @@ export class Collisions {
                 normal = axis;
             }
         }
-        //also test for axis that is from the closest Vertex to the center of circle
+         //also test for axis that is from the closest Vertex to the center of circle
+        //find overlaps for axis from polygon closest vertex to center of circle
+        const closestVertex = this.findClosestVertex(vertices, cShape.position);// finding the closest vertex
+        axis = closestVertex.clone().subtract(cShape.position).normalize(); 
+
+        const [min1, max1] = this.projectVertices(vertices, axis); //project the rectangle(polygon)
+        const [min2, max2] = this.projectCircle(cShape.position, cShape.radius, axis);// project the circle
+        if (min1 >= max2 || min2 >= max1) {// returns if there is no overlap and both have to be false for there to be an overlap
+            return;
+        }
+
+        const axisOverlap = Math.min(max2-min1, max1-min2); // code used to find overlaps so we can relsolve them
+        if (axisOverlap < overlap) {
+            overlap = axisOverlap;
+            normal = axis;
+        }
+        //set correct direction of the collision normal 
+        //(direction of collision from 1st to 2nd object)
+        const vec1to2 = p.shape.position.clone().subtract(c.shape.position); // finds vector from polygon to circle  
+        if (normal.dot(vec1to2) < 0) { // checks if vector is in correct direction, if not, flips it
+            normal.invert();
+        }
     }
+
 
     projectVertices (vertices, axis) {
         let min, max;
