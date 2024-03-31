@@ -100,8 +100,16 @@ export class Collisions {
         const vec1to2 = p.shape.position.clone().subtract(c.shape.position); // finds vector from polygon to circle  
         if (normal.dot(vec1to2) < 0) { // checks if vector is in correct direction, if not, flips it
             normal.invert();
+     
         }
+        //add collision info
+        this.collisions.push({ // push (add to end of array) collision information to collision array
+            collidedPair: [c, p],// pair of objects
+            overlap: overlap,// amount of overlap
+            normal: normal,       //direction from c1 to c2
+        });
     }
+    
 
 
     projectVertices (vertices, axis) {
