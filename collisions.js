@@ -22,7 +22,7 @@ export class Collisions {
                     }   //later detect rectangle rectangle here
                     else if (objects[i].shape instanceof Circle && 
                         objects[j].shape instanceof Rect) {
-                            this.detectCollisionCirclePolygon(objects[i], objects[j]);
+                            this.detectCollisionCirclePolygon(objects[i], objects[j]); // detect collision instead of just closest vertex
                             // this.findClosestVertex(objects[j].shape.vertices, objects[i].shape.position);
                     }
                     else if (objects[i].shape instanceof Rect && 
@@ -85,7 +85,8 @@ export class Collisions {
         axis = closestVertex.clone().subtract(cShape.position).normalize(); 
 
         const [min1, max1] = this.projectVertices(vertices, axis); //project the rectangle(polygon)
-        const [min2, max2] = this.projectCircle(cShape.position, cShape.radius, axis);// project the circle
+        const [min2, max2] = this.projectCircle(cShape.position, cShape.radius, axis);
+        // project the circle by projecting circle position(center), circle radius, and axis
         if (min1 >= max2 || min2 >= max1) {// returns if there is no overlap and both have to be false for there to be an overlap
             return;
         }
