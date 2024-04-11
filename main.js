@@ -87,7 +87,7 @@ function updateAndDraw() {
     //COLLISIONS
     col.clearCollisions();
     col.narrowPhaseDetection(objects);  //detect all possible collisions
-    col.resolveCollisions();    //push off
+    col.resolveCollisionsLinear();    //push off
 
     //draw objects
     renderer.clearFrame();
@@ -124,15 +124,4 @@ function addObject(shape) {
     objects.push(object);
 } 
 
-//L10 Relative velocity
-const vCG = new Vec (80, 0);
-const vTG = new Vec(0, 70);
-const vCT = vCG.subtract(vTG);
-console.log(vCT.magnitude());
-
-//L10 Coefficient of Restitution
-const dropHeight = 1685;
-const bounceHeight = 1100;
-const e = Math.sqrt(bounceHeight / dropHeight);
-console.log(e);
 

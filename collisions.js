@@ -5,6 +5,7 @@ import {renderer} from './main.js';
 export class Collisions {
     constructor() {
         this.collisions = [];
+        this.e = 3;   //between 0 and 1
     }
 
     clearCollisions() {
@@ -55,7 +56,6 @@ export class Collisions {
 
     //detect rectangles collisions
     detectCollisionCirclePolygon (c, p) {
-        // console.log(c, p);
         const vertices = p.shape.vertices;
         const cShape = c.shape;
         let axis, overlap, normal;
@@ -262,12 +262,25 @@ export class Collisions {
         o2.shape.position.add(normal.clone().multiply(overlap/2));
     }
 
-    resolveCollisions() {
+    bounceOffObjects(o1, o2, normal) {
+        const relativeVelocity = o2.velocity.clone().subtract(o1.velocity);
+        if (relativeVelocity.dot(normal) > 0) {
+            return;
+        }
+        const j = -(1 + this.e) * relativeVelocity.dot(normal) / (o1.inverseMass + o2.inverseMass);
+        const dv1 = j * o1.inverseMass;
+        const dv2 = j * o2.inverseMass;
+        o1.velocity.subtract(normal.clone().multiply(dv1));
+        o2.velocity.add(normal.clone().multiply(dv2));
+    }
+
+    resolveCollisionsLinear() {
         let collidedPair, overlap, normal, o1, o2;
         for(let i=0; i<this.collisions.length; i++) {
             ({collidedPair, overlap, normal} = this.collisions[i]);
             [o1, o2] = collidedPair;
             this.pushOffObjects(o1, o2, overlap, normal);
+            this.bounceOffObjects(o1, o2, normal);
         }
     }
 }
