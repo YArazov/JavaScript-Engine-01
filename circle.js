@@ -8,6 +8,11 @@ export class Circle {
         this.aabb = new Aabb(new Vec(0,0),new Vec(0,0));
 	}
 
+    calculateMass(density) {
+        const area = Math.PI * this.radius * this.radius;
+        return area * density;
+    }
+
     updateAabb() {
         this.aabb.min = this.position.clone().subtractX(this.radius).subtractY(this.radius);
         this.aabb.max = this.position.clone().addX(this.radius).addY(this.radius);

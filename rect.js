@@ -13,6 +13,11 @@ export class Rect {
         this.aabb = new Aabb(new Vec(0,0),new Vec(0,0));
 	}
 
+    calculateMass(density) {
+        const area = this.width * this.height;
+        return area * density;
+    }
+
     //0 1
     //3 2
 
