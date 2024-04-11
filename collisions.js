@@ -208,7 +208,7 @@ export class Collisions {
             if (overlap <= 0) {
                 return;
             }
-            else if (overlap , smallestOverlap) {
+            else if (overlap < smallestOverlap) {
                 smallestOverlap = overlap;
                 collisionNormal = normal;
             }
