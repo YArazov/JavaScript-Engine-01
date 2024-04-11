@@ -176,6 +176,7 @@ export class Collisions {
         }
         //check if axes are not on the back side of rectangle
         for (let i = 0; i < axes1.length; i++) {
+            axis = axes1[i];
             if(axes1[i].dot(vector1to2) < 0) {
                 //axis is in the wrong direction, i.e it is on the backside of rectangle
                 continue;
@@ -195,8 +196,11 @@ export class Collisions {
         const vector2to1 = vector1to2.clone().invert();
         const edges2 = this.calculateEdges(vertices2);
         const axes2 = [];
-        for (let i = 0; i < edges2.lenght; i++) {
-            const axis = axes2[i];
+        for (let i = 0; i < edges2.length; i++) {
+            axes2.push(edges2[i].rotateCCW90().normalize());
+        }
+        for (let i = 0; i < axes2.length; i++) {
+            axis = axes2[i];
             if(axis.dot(vector2to1) < 0) {
                 continue;
             }
@@ -210,12 +214,14 @@ export class Collisions {
             }
         }
 
-        const normal = this.correctNormalDirection(collisionNormal, o1, o2);
-
+        //let normal;
+        //if (collisionNormal) {
+           collisionNormal = this.correctNormalDirection(collisionNormal, o1, o2);
+        //}
         this.collisions.push({
             collidedPair: [o1, o2],
             overlap: smallestOverlap,
-            normal: normal,     //direction from o1 to o2, normal points out of o1
+            normal: collisionNormal,     //direction from o1 to o2, normal points out of o1
         });
     }
 
@@ -251,7 +257,7 @@ export class Collisions {
         }
         return {
             overlap: Math.min( max2-min1, max1-min2),
-            mnormal: axis.clone(),
+            normal: axis.clone(),
         };
     }
 
