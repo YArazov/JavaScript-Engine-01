@@ -9,8 +9,15 @@ export class Collisions {
 
     clearCollisions() {
         this.collisions = [];
+    
     }
-
+    broadPhazeDetection (objects) {
+        for(let i=0; i<objects.length; i++) {
+            for(let j=i+1; j<objects.length; j++) {
+                this.detectAabbCollision(objects[i], objects[j]);
+            }
+        }
+    }
     narrowPhaseDetection(objects) {
         for (let i=0; i<objects.length; i++) {
             for (let j=0; j<objects.length; j++) {  //try j=i+1
@@ -34,6 +41,17 @@ export class Collisions {
                     }
                 }
             }
+        }
+    }
+
+    detectAabbCollision(o1, o2) {
+        let o1aabb = o1.shape.aabb;
+        let o2aabb = o2.shape.aabb;
+        if (o1aabb.max.x > o2aabb.min.x &&
+            o1aabb.max.y > o2aabb.min.y &&
+            o2aabb.max.x > o1aabb.min.x &&
+            o2aabb.max.y > o1aabb.min.y) {
+            this.possibleCollisions.push([o1, o2]);
         }
     }
 
@@ -176,11 +194,13 @@ export class Collisions {
         }
         //check if axes are not on the back side of rectangle
         for (let i = 0; i < axes1.length; i++) {
-            if(axes1[i].dot(vector1to2) < 0) {
+            const axis = axes1[i];
+            if(axis.dot(vector1to2) < 0) {
                 //axis is in the wrong direction, i.e it is on the backside of rectangle
                 continue;
             }
             //calculate overlap on axis
+            const { overlap, normal } = this.calculateOverlap(vertices1, vertices2, axis);
         }
     }
 
@@ -195,7 +215,19 @@ export class Collisions {
     }
 
     calculateOverlap() {
+        const [min1, max1] = this.projectVertices(vertices1, axis);
+        const [min2, max2] = this.projectVertices(vertices2, axis);
 
+        if (min1 >= max2 || min2 >= max1) {
+            return {
+                overlap: 0,
+                normal: null
+            }
+        }
+        return {
+            overlap: Math.min(max2-min1, max1-min2),
+            normal: axis.clone(),
+        };
     }
 
     
