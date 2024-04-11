@@ -201,6 +201,12 @@ export class Collisions {
             }
             //calculate overlap on axis
             const { overlap, normal } = this.calculateOverlap(vertices1, vertices2, axis);
+            if (overlap <= 0) {// if shapes just touching or space between them
+                return; // Separating axis found, no collision
+            } else if (overlap < smallestOverlap) {
+                smallestOverlap = overlap;
+                collisionNormal = normal;
+            }
         }
     }
 
