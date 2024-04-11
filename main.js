@@ -87,7 +87,7 @@ function updateAndDraw() {
     //COLLISIONS
     col.clearCollisions();
     col.narrowPhaseDetection(objects);  //detect all possible collisions
-    col.resolveCollisions();    //push off
+    col.resolveCollisionsLinear();    //push off
 
     //draw objects
     renderer.clearFrame();
