@@ -31,4 +31,13 @@ export class RigidBody {
 		this.shape.updateAabb();
     } 
 
+	checkTooFar (worldSize) {
+		if (this.shape.position.magnitude() > worldSize) {
+			return true;
+		}
+		if (objects[i].checkTooFar(WORLD_SIZE)) {
+			objectsToRemove.push(objects[i]);
+		}
+	}
+
 }

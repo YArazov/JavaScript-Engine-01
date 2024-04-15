@@ -23,7 +23,7 @@ const inp = new Input(canv, window, dt);
 inp.resizeCanvas();
 inp.addListeners();
 
-const objects = [];
+const objects = []; 
 let shapeBeingMade = null;
 //button variables
 let shapeSelected = 'r';
@@ -89,6 +89,9 @@ function updateAndDraw() {
     col.narrowPhaseDetection(objects);  //detect all possible collisions
     col.resolveCollisionsLinear();    //push off
 
+    for (let i=0; i<objects.length; i++) {
+        const objectsToRemove = [];
+    }
     //draw objects
     renderer.clearFrame();
     renderer.drawFrame(objects, fillCol, bordCol);
