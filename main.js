@@ -89,9 +89,16 @@ function updateAndDraw() {
     col.narrowPhaseDetection(objects);  //detect all possible collisions
     col.resolveCollisionsLinear();    //push off
 
+    //remove objects that are too far
+    const objectsToRemove = [];
     for (let i=0; i<objects.length; i++) {
-        const objectsToRemove = [];
+        if (objects[i].checkTooFar(WORLD_SIZE)) {
+			objectsToRemove.push(objects[i]);
+		}
     }
+    removeObjects(objectsToRemove);
+    const WORLD_SIZE = 5000;
+
     //draw objects
     renderer.clearFrame();
     renderer.drawFrame(objects, fillCol, bordCol);
