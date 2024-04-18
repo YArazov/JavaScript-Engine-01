@@ -7,6 +7,7 @@ import {Collisions} from './collisions.js';
 import {Vec} from './vector.js';
 
 const SMALLEST_RADIUS = 10;
+const WORLD_SIZE = 5000;
 const dt = 1/60;    //time per frame
 
 const canv = document.getElementById("canvas");
@@ -97,7 +98,7 @@ function updateAndDraw() {
 		}
     }
     removeObjects(objectsToRemove);
-    const WORLD_SIZE = 5000;
+   
 
     //draw objects
     renderer.clearFrame();
@@ -134,16 +135,15 @@ function addObject(shape) {
     objects.push(object);
 } 
 
-//Lesson 10 relative velocity
-const vCG = new Vec (80, 0);
-const vTG = new Vec (0, 70);
-const vCT = vCG.subtract(vTG);
-console.log(vCT.magnitude());
+function removeObjects(objectsToRemove) {
+	for (let i=0; i<objects.length; i++) {
+		for (let j=0; j<objectsToRemove.length; j++) {
+			if (objects[i] == objectsToRemove[j]) {
+				objects.splice(i, 1);
+			}
+		}
+	}
+}
 
-//L10 coefficient of Restitution
-const dropHeight = 1685;
-const bounceHeight = 1100;
-const e = Math.sqrt(bounceHeight / dropHeight)
- console.log(e);
 
 
