@@ -2,7 +2,7 @@ import {Vec} from './vector.js';
 import {Rect} from './rect.js';
 
 export class RigidBody {
-	constructor(shape) {
+	constructor(shape, fixed) {
 		this.shape = shape;   
 		this.velocity = new Vec(0, 0);
 
@@ -11,11 +11,18 @@ export class RigidBody {
 		this.mass;
 		this.inverseMass;
 		this.density = 5;
+
+		this.isFixed = fixed;
 	}	
 
 	setMass() {
 		this.mass = this.shape.calculateMass(this.density);
-		this.inverseMass = 1 / this.mass;
+		if (this.isFixed) {
+			this.inverseMass = 0;
+		} else {
+			this.inverseMass = 1 / this.mass;
+		}
+		console.log(this.inverseMass);
 	}
 
 	updateShape(dt) {
