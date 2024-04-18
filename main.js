@@ -7,6 +7,7 @@ import {Collisions} from './collisions.js';
 import {Vec} from './vector.js';
 
 const SMALLEST_RADIUS = 10;
+const WORLD_SIZE = 5000;
 const dt = 1/60;    //time per frame
 
 const canv = document.getElementById("canvas");
@@ -94,6 +95,7 @@ function updateAndDraw() {
         if (objects [i].checkTooFar (WORLD_SIZE)) {
             objectsToRemove.push(objects[i]);}
     } 
+    removeObjects(objectsToRemove);
 
     //draw objects
     renderer.clearFrame();
