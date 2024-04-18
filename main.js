@@ -4,10 +4,12 @@ import {Rect} from './rect.js';
 import {Input} from './input.js';
 import {RigidBody} from './rigidBody.js';
 import {Collisions} from './collisions.js';
+import {Vec} from './vector.js';
 
 const WORLD_SIZE = 5000;
 const SMALLEST_RADIUS = 10;
 const dt = 1/60;    //time per frame
+let g;
 
 const canv = document.getElementById("canvas");
 const ctx = canv.getContext("2d");
@@ -24,6 +26,17 @@ inp.resizeCanvas();
 inp.addListeners();
 
 const objects = [];
+
+//make ground
+addObject(
+    new Rect (
+        new Vec(canv.width / 2, canv.height), 
+        canv.width * 3, 
+        canv.height * 0.3
+    ),
+    true
+);
+
 let shapeBeingMade = null;
 //button variables
 let shapeSelected = 'r';
@@ -79,15 +92,25 @@ function updateAndDraw() {
         moveObjectWithMouse(inp.inputs.mouse.movedObject);
     }
 
-    //Lesson 03 - update object positions with velocity
-    for(let i=0; i<objects.length; i++) {
-        objects[i].updateShape(dt);
+    g = 200;
+    for(let i=1; i<objects.length; i++) {
+        objects[i].acceleration.zero().addY(g);
     }
 
-    //COLLISIONS
-    col.clearCollisions();
-    col.narrowPhaseDetection(objects);  //detect all possible collisions
-    col.resolveCollisionsLinear();    //push off
+    const iterations = 20;
+    for(let i=0; i<iterations; i++) {
+
+        //Lesson 03 - update object positions with velocity
+        for(let i=0; i<objects.length; i++) {
+            objects[i].updateShape(dt/iterations);
+        }
+
+        //COLLISIONS
+        col.clearCollisions();
+        col.narrowPhaseDetection(objects);  //detect all possible collisions
+        col.resolveCollisionsLinear();    //push off
+
+    }
 
     //remove objects that are too far
     const objectsToRemove = [];
@@ -128,8 +151,8 @@ function moveObjectWithMouse(object) {
     object.velocity.copy(inp.inputs.mouse.velocity);
 }
 
-function addObject(shape) {
-    const object = new RigidBody(shape); 
+function addObject(shape, fixed=false) {
+    const object = new RigidBody(shape, fixed); 
     object.setMass();
     objects.push(object);
 } 
