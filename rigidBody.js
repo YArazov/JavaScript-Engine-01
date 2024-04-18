@@ -21,5 +21,10 @@ export class RigidBody {
 		}
 		this.shape.updateAabb();
     } 
+	checkTooFar (worldSize){
+		if(this.shape.position.magnitude()>worldSize){
+			return true;
+		}
+	}
 
 }

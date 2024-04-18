@@ -89,6 +89,12 @@ function updateAndDraw() {
     col.narrowPhaseDetection(objects);  //detect all possible collisions
     col.resolveCollisions();    //push off
 
+    const objectsToRemove = [];
+    for(let i=0; i<objects.length; i++){
+        if (objects [i].checkTooFar (WORLD_SIZE)) {
+            objectsToRemove.push(objects[i]);}
+    } 
+
     //draw objects
     renderer.clearFrame();
     renderer.drawFrame(objects, fillCol, bordCol);
@@ -122,73 +128,12 @@ function addObject(shape) {
     const object = new RigidBody(shape);  
     objects.push(object);
 } 
-
-//lesson 9 Debugging
-//1. console
-// let a = 5;
-// let b = 3;
-// let c = "one";
-// // console.log(a);
-// // console.info(a);
-// // console.debug(a);
-// // console.warn(a);
-// // console.error(a);
-
-// let d = a + b - c;
-//     // debugger;
-// console.log(d);
-
-// var animals = [
-//     { animal: 'Horse', name: 'Henry', age: 43 },
-//     { animal: 'Dog', name: 'Fred', age: 13 },
-//     { animal: 'Cat', name: 'Frodo', age: 18 }
-// ];
- 
-// console.table(animals);
-
-// console.time('Timer1');
- 
-// var items = [];
- 
-// for(var i = 0; i < 100000; i++){
-//    items.push({index: i});
-// }
- 
-// console.timeEnd('Timer1');
-
-// //debugging practice
-// let computerAndCrewReady = false;
-// let fuelReady = false;
-
-// let fuelLevel = 30000;
-// let crewStatus = true;
-// let computerStatus = 'green';
-
-
-// if (fuelLevel >= 20000) {
-//    console.log('Fuel level cleared.');
-//    fuelReady = true;
-// } else {
-//    console.log('WARNING: Insufficient fuel!');
-//    fuelReady = false;
-// }
-
-
-// if (crewStatus && computerStatus === 'green'){
-//    console.log('Crew & computer cleared.');
-//    computerAndCrewReady = true;
-// } else {
-//    console.log('WARNING: Crew or computer not ready!');
-//    computerAndCrewReady = false;
-// }
-
-
-// if (computerAndCrewReady && fuelReady) {
-//    console.log('10, 9, 8, 7, 6, 5, 4, 3, 2, 1...');
-//    console.log('Liftoff!');
-// } else {
-//    console.log('Launch scrubbed.');
-// }
-
-
-
+function removeObjects(objectsToRemove) {
+    for (let i=0; i<objects.length; i++) {
+        for (let j=0; j<objectsToRemove. length; j++) {
+            if (objects[i] == objectsToRemove[j]) {
+                objects, splice(i, 1);
+            }
+        }
+    }
+}
