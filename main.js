@@ -134,7 +134,7 @@ function removeObjects(objectsToRemove) {
     for (let i=0; i<objects.length; i++) {
         for (let j=0; j<objectsToRemove. length; j++) {
             if (objects[i] == objectsToRemove[j]) {
-                objects, splice(i, 1);
+                objects.splice(i, 1);
             }
         }
     }
