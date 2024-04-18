@@ -4,8 +4,8 @@ import {Rect} from './rect.js';
 import {Input} from './input.js';
 import {RigidBody} from './rigidBody.js';
 import {Collisions} from './collisions.js';
-import {Vec} from './vector.js';
 
+const WORLD_SIZE = 5000;
 const SMALLEST_RADIUS = 10;
 const dt = 1/60;    //time per frame
 
@@ -89,6 +89,16 @@ function updateAndDraw() {
     col.narrowPhaseDetection(objects);  //detect all possible collisions
     col.resolveCollisionsLinear();    //push off
 
+    //remove objects that are too far
+    const objectsToRemove = [];
+    for(let i=0; i<objects.length; i++) {
+        const obj = objects[i];
+        if(obj.checkTooFar(WORLD_SIZE)){
+            objectsToRemove.push(obj);
+        };
+    }
+    removeObjects(objectsToRemove);
+
     //draw objects
     renderer.clearFrame();
     renderer.drawFrame(objects, fillCol, bordCol);
@@ -124,4 +134,14 @@ function addObject(shape) {
     objects.push(object);
 } 
 
+function removeObjects(objectsToRemove) {
+    for(let i=0; i<objectsToRemove.length; i++) {
+        for(let j=0; j<objects.length; j++) {   //search for object to remove in objects
+            if (objects[j] == objectsToRemove[i]) {
+                objects.splice(j, 1);
+                break;
+            } 
+        }
+    }
+}
 
