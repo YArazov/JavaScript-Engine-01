@@ -38,16 +38,34 @@ addObject(
 );
 
 let shapeBeingMade = null;
-//button variables
 let shapeSelected = 'r';
+let gravity = 2;
+let colMode = 2;
+
+//button variables
 const circleButton = document.getElementById("c");
 const rectButton = document.getElementById("r");
+
 circleButton.onclick = function() {
     shapeSelected = 'c';
+    setButtonBold(circleButton, true);
+    setButtonBold(rectButton, false);
 };
 rectButton.onclick = function() {
     shapeSelected = 'r';
+    setButtonBold(circleButton, false);
+    setButtonBold(rectButton, true);
 };
+
+//selects
+const selectGravity = document.getElementById("gravity");
+const selectCollisions = document.getElementById("collisions")
+selectGravity.addEventListener("change", function() {
+    gravity = selectGravity.value;
+});
+selectCollisions.addEventListener("change", function() {
+    colMode = selectCollisions.value;
+});
 
 //MAIN LOOP
 function updateAndDraw() {
@@ -90,6 +108,21 @@ function updateAndDraw() {
     }
     if(inp.inputs.mouse.movedObject) {
         moveObjectWithMouse(inp.inputs.mouse.movedObject);
+    }
+
+    //zero acceleration and apply gravity
+    let g;
+    switch (true) {
+        case gravity == 0: g = 0; break;
+        case gravity == 1: g = 20; break;
+        case gravity == 3: g = 2000; break;
+        default: g = 200; break;
+    }
+    for(let i=0; i<objects.length; i++) {
+        objects[i].acceleration.zero();
+        if(!objects[i].isFixed) {
+            objects[i].acceleration.y += g;
+        }
     }
 
     g = 200;
@@ -167,4 +200,13 @@ function removeObjects(objectsToRemove) {
         }
     }
 }
+
+function setButtonBold(btn, bool) {
+    if (bool) {
+        btn.style.fontWeight = '700';
+    } else {
+        btn.style.fontWeight = '400';
+    }
+}
+
 
