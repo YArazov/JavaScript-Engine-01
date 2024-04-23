@@ -23,7 +23,7 @@ export class RigidBody {
 		} else {
 			this.inverseMass = 1 / this.mass;
 		}
-		console.log(this.inverseMass);
+		//console.log(this.inverseMass);
 	}
 
 	updateShape(dt) {

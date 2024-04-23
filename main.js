@@ -40,18 +40,27 @@ addObject(
 let shapeBeingMade = null;
 //button variables
 let shapeSelected = 'r';
+let gravity = 2;
+const selectGravity = document.getElementById("gravity");
+selectGravity.addEventListener("change",function(){
+    gravity=selectGravity.value ;
+});
 const circleButton = document.getElementById("c");
 const rectButton = document.getElementById("r");
 circleButton.onclick = function() {
     shapeSelected = 'c';
+    setButtonBold(circleButton,true);
+    setButtonBold(rectButton,false);
 };
 rectButton.onclick = function() {
     shapeSelected = 'r';
+    setButtonBold(rectButton,true);
+    setButtonBold(circleButton,false);
 };
 
 //MAIN LOOP
 function updateAndDraw() {
-
+//console.log(gravity);
     //make objects
     if (inp.inputs.lclick && shapeBeingMade == null) {
         //lesson 03 - make rectangles with mouse
@@ -93,6 +102,23 @@ function updateAndDraw() {
     }
 
     g = 200;
+    switch(true) {
+        case gravity==0:
+          // change the g
+          g=0;
+          break;
+        case gravity==1:
+          g=20;
+          break;
+          case gravity==2:
+          g=200;
+          break;
+          case gravity==3:
+          g=2000;
+          break;
+
+          
+      }
     for(let i=1; i<objects.length; i++) {
         objects[i].acceleration.zero().addY(g);
     }
@@ -168,3 +194,11 @@ function removeObjects(objectsToRemove) {
     }
 }
 
+function setButtonBold (button,bool){
+    if (bool==true){
+        button.style.fontWeight=700;
+        
+    } else{
+        button.style.fontWeight=400;
+    }
+}
