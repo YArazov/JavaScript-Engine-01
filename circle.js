@@ -3,7 +3,9 @@ import {Aabb} from './aabb.js';
 
 export class Circle {
 	constructor(pos, r) {
-		this.position = pos
+		this.position = pos;
+        this.orientation = 0;
+        
 		this.radius = r;
         this.aabb = new Aabb(new Vec(0,0),new Vec(0,0));
 	}
