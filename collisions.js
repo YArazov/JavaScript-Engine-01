@@ -257,6 +257,28 @@ export class Collisions {
         }
     }
 
+    findClosestPointSegment(p, a, b) {
+        const vAB = b.clone().subtract(a);  //vector from point a to point b
+        const vAP = p.clone().subtract(a);
+
+        const proj = vAB.dot(vAP);
+        const d = proj / vAB.magnitude() / vAB.magnitude();
+
+        let closest;    //closest point
+
+        if (d <= 0) {
+            closest = a;
+        } else if (d >= 1) {
+            closest = b;
+        } else {
+            closest = a.clone().add(vAB.clone().multiply(d));
+        }
+
+        const distSquared = Math.pow(p.distanceTo(closest), 2);
+        return [closest, distSquared];  //explain next class
+    }
+
+
     pushOffObjects(o1, o2, overlap, normal) {
         if (o1.isFixed) {
             o2.shape.position.add(normal.clone().multiply(overlap));
