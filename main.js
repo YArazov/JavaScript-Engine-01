@@ -38,16 +38,28 @@ addObject(
 );
 
 let shapeBeingMade = null;
+
 //button variables
 let shapeSelected = 'r';
+let gravity = 2;
 const circleButton = document.getElementById("c");
 const rectButton = document.getElementById("r");
 circleButton.onclick = function() {
     shapeSelected = 'c';
+    setButtonBold(circleButton, true);
+    setButtonBold(rectButton, false);
 };
 rectButton.onclick = function() {
     shapeSelected = 'r';
+    setButtonBold(circleButton, false);
+    setButtonBold(rectButton, true);
 };
+
+//selects
+const selectGravity = document.getElementById("gravity");
+selectGravity.addEventListener("change", function() {
+    gravity = selectGravity.value;
+});
 
 //MAIN LOOP
 function updateAndDraw() {
@@ -92,9 +104,19 @@ function updateAndDraw() {
         moveObjectWithMouse(inp.inputs.mouse.movedObject);
     }
 
-    g = 200;
-    for(let i=1; i<objects.length; i++) {
-        objects[i].acceleration.zero().addY(g);
+    //zero acceleration and apply gravity
+    let g;
+    switch (true) {
+        case gravity == 0: g = 0; break;
+        case gravity == 1: g = 20; break;
+        case gravity == 3: g = 2000; break;
+        default: g = 200; break;
+    }
+    for(let i=0; i<objects.length; i++) {
+        objects[i].acceleration.zero();
+        if(!objects[i].isFixed) {
+            objects[i].acceleration.y += g;
+        }
     }
 
     const iterations = 20;
@@ -165,6 +187,14 @@ function removeObjects(objectsToRemove) {
                 break;
             } 
         }
+    }
+}
+
+function setButtonBold(btn, bool){
+    if (bool) {
+        btn.style.fontWeight =  '700';
+    } else {
+        btn.style.fontWeight =  '400';
     }
 }
 
