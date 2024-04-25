@@ -125,11 +125,6 @@ function updateAndDraw() {
         }
     }
 
-    g = 200;
-    for(let i=1; i<objects.length; i++) {
-        objects[i].acceleration.zero().addY(g);
-    }
-
     const iterations = 20;
     for(let i=0; i<iterations; i++) {
 
