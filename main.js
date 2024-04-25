@@ -44,9 +44,13 @@ const circleButton = document.getElementById("c");
 const rectButton = document.getElementById("r");
 circleButton.onclick = function() {
     shapeSelected = 'c';
+    setButtonBold(circleButton, true);
+    setButtonBold(rectButton, false);
 };
 rectButton.onclick = function() {
     shapeSelected = 'r';
+    setButtonBold(rectButton, true);
+    setButtonBold(circleButton, false);
 };
 
 //MAIN LOOP
@@ -168,3 +172,10 @@ function removeObjects(objectsToRemove) {
     }
 }
 
+function setButtonBold (btn, bool){
+    if (bool) {
+    btn.style.fontWeight = '700';
+    } else {
+    btn.style.fontWeight = '400';
+    }
+}
