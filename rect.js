@@ -18,6 +18,11 @@ export class Rect {
         return area * density;
     }
 
+    calculateInertia(mass) {
+        let inertia = 1/12 * mass * (this.width * this.width + this.height * this.height);  //I = (1/12) * M * (L² + W²)
+        return inertia;
+    }
+
     //0 1
     //3 2
 
