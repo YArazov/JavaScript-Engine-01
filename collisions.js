@@ -46,10 +46,14 @@ export class Collisions {
             const overlap = s1.radius + s2.radius - dist;
             //unit vector from s1 to s2
             const normal = s2.position.clone().subtract(s1.position).normalize();   //unit vector(direction) normal(perpendicular) to contact surface
+            const point = s1.position.clone().add(normal.clone().multiply(s1.radius-overlap/2));
+            renderer.renderedAlways.push(point);
+            
             this.collisions.push({  //object
                 collidedPair: [o1, o2], //[array]
                 overlap: overlap,
-                normal: normal
+                normal: normal,
+                point: point,
             })
         }
     }
@@ -106,10 +110,13 @@ export class Collisions {
             normal.invert();
         }
 
+        const point = this.findContactPointCirclePolygon(cShape.position, vertices);
+
         this.collisions.push({
             collidedPair: [c, p],
             overlap: overlap,
             normal: normal,       //direction from c1 to c2
+            point: point,
         });
     }
 
@@ -276,9 +283,25 @@ export class Collisions {
         } else {
             closest = a.clone().add(vAB.clone().multiply(d));
         }
-        renderer.renderedNextFrame.push(closest);
+        
         const distSquared = Math.pow(p.distanceTo(closest), 2);
         return [closest, distSquared];  //explain next class
+    }
+
+    findContactPointCirclePolygon(circleCenter, polygonVertices) {
+        let contact, v1, v2;
+        let shortestDist = Number.MAX_VALUE;
+        for (let i=0; i<polygonVertices.length; i++) {
+            v1 = polygonVertices[i];
+            v2 = polygonVertices[(i+1)%polygonVertices.length];
+            const info = this.findClosestPointSegment(circleCenter, v1, v2);    //closest and distSq
+            if(info[1] < shortestDist) {
+                contact = info[0];
+                shortestDist = info[1];
+            }
+        }
+        renderer.renderedAlways.push(contact);
+        return contact;
     }
 
 
