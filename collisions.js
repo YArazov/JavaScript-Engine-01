@@ -65,6 +65,10 @@ export class Collisions {
         for (let i=0; i<vertices.length; i++) {
             const v1 = vertices[i]; //i = 0,1,2,3
             const v2 = vertices[(i+1)%vertices.length]; //1,2,3,0
+
+            //test closest point segment
+            this.findClosestPointSegment(cShape.position, v1, v2);
+
             axis = v2.clone().subtract(v1).rotateCCW90().normalize();
             //we found the vector from v1 to v2, then rotated to point out of polygon, 
             //then normalized to make length 1 (unit vector)
@@ -155,7 +159,6 @@ export class Collisions {
                 closestVertex = vertices[i];
             }
         }
-        renderer.renderedNextFrame.push(closestVertex);
         return closestVertex;
     }
 
@@ -273,7 +276,7 @@ export class Collisions {
         } else {
             closest = a.clone().add(vAB.clone().multiply(d));
         }
-
+        renderer.renderedNextFrame.push(closest);
         const distSquared = Math.pow(p.distanceTo(closest), 2);
         return [closest, distSquared];  //explain next class
     }
