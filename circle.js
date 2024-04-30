@@ -3,7 +3,9 @@ import {Aabb} from './aabb.js';
 
 export class Circle {
 	constructor(pos, r) {
-		this.position = pos
+		this.position = pos;
+        this.orientation = 0;
+        
 		this.radius = r;
         this.aabb = new Aabb(new Vec(0,0),new Vec(0,0));
 	}
@@ -11,6 +13,11 @@ export class Circle {
     calculateMass(density) {
         const area = Math.PI * this.radius * this.radius;
         return area * density;
+    }
+
+    calculateInertia(mass) {
+        let inertia = 0.5 * mass * this.radius * this.radius;  //1/2 M R ^2
+        return inertia;
     }
 
     updateAabb() {
