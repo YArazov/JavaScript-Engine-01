@@ -19,7 +19,6 @@ export class Collisions {
                     //detect collisions
                     if(objects[i].shape instanceof Circle && 
                         objects[j].shape instanceof Circle) {
-                        this.detectCollisionCircleCircle(objects[i], objects[j]);
                     }  
                     else if (objects[i].shape instanceof Circle && 
                         objects[j].shape instanceof Rect) {
@@ -51,6 +50,15 @@ export class Collisions {
                 overlap: overlap,
                 normal: normal
             })
+            this.detectCollisionCircleCircle(objects[i], objects[j]);
+            const point = s1.position.clone().add(normal.clone().multiply(s1.radius-overlap/2));
+            renderer.renderedNextFrame.push(point);
+            this.collisions.push({
+            collidedPair: [o1, o2],
+            overlap: overlap,
+            normal: normal,
+            point: point
+            });
         }
     }
 
@@ -105,6 +113,15 @@ export class Collisions {
         if (normal.dot(vec1to2) < 0) { 
             normal.invert();
         }
+
+        const point = this.findContactPointCirclePolygon(cShape.position, vertices);
+            renderer.renderedNextFrame.push(point);
+            this.collisions.push({
+            collidedPair: [c, p],
+            overlap: overlap,
+            normal: normal,
+            point: point
+        });
 
         this.collisions.push({
             collidedPair: [c, p],
@@ -326,5 +343,20 @@ export class Collisions {
 
     resolveCollisionsBounceAndRotate() {
         console.log("rotations");
+    }
+
+    findContactPointCirclePolygon(circleCenter, polygonVertices) {
+        let contact, v1, v2;
+        let shortestDist = Number.MAX_VALUE;
+        for(let i=0; i<polygonVertices.length; i++) {
+            v1 = polygonVertices[i];
+            v2 = polygonVertices[(i+1)%polygonVertices.length];
+            const info = this.findClosestPointSegment(circleCenter, v1, v2);
+            if(info[1] < shortestDist) {
+                contact = info[0];
+                shortestDist = info[1];
+            }
+        }
+        return contact;
     }
 }
