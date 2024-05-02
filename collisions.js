@@ -37,7 +37,6 @@ export class Collisions {
             }
         }
     }
-
     detectCollisionCircleCircle(o1, o2) {   //o1 and o2 are rigidBodies from array objects in main
         const s1 = o1.shape;    //rigidBodies have shape circle or rectangle
         const s2 = o2.shape;    //shape has position and radius
@@ -46,13 +45,18 @@ export class Collisions {
             const overlap = s1.radius + s2.radius - dist;
             //unit vector from s1 to s2
             const normal = s2.position.clone().subtract(s1.position).normalize();   //unit vector(direction) normal(perpendicular) to contact surface
+            const point = s1.position.clone().add(normal.clone().multiply(s1.radius-overlap/2));
+            // renderer.renderedAlways.push(point);
             this.collisions.push({  //object
                 collidedPair: [o1, o2], //[array]
                 overlap: overlap,
-                normal: normal
-            })
+                normal: normal,
+                point: point,
+                
+            });
         }
     }
+
 
     //detect rectangles collisions
     detectCollisionCirclePolygon (c, p) {
@@ -65,10 +69,6 @@ export class Collisions {
         for (let i=0; i<vertices.length; i++) {
             const v1 = vertices[i]; //i = 0,1,2,3
             const v2 = vertices[(i+1)%vertices.length]; //1,2,3,0
-
-            //test closest point segment
-            this.findClosestPointSegment(cShape.position, v1, v2);
-
             axis = v2.clone().subtract(v1).rotateCCW90().normalize();
             //we found the vector from v1 to v2, then rotated to point out of polygon, 
             //then normalized to make length 1 (unit vector)
@@ -159,6 +159,7 @@ export class Collisions {
                 closestVertex = vertices[i];
             }
         }
+        renderer.renderedNextFrame.push(closestVertex);
         return closestVertex;
     }
 
@@ -260,28 +261,6 @@ export class Collisions {
         }
     }
 
-    findClosestPointSegment(p, a, b) {
-        const vAB = b.clone().subtract(a);  //vector from point a to point b
-        const vAP = p.clone().subtract(a);
-
-        const proj = vAB.dot(vAP);
-        const d = proj / vAB.magnitude() / vAB.magnitude();
-
-        let closest;    //closest point
-
-        if (d <= 0) {
-            closest = a;
-        } else if (d >= 1) {
-            closest = b;
-        } else {
-            closest = a.clone().add(vAB.clone().multiply(d));
-        }
-        renderer.renderedNextFrame.push(closest);
-        const distSquared = Math.pow(p.distanceTo(closest), 2);
-        return [closest, distSquared];  //explain next class
-    }
-
-
     pushOffObjects(o1, o2, overlap, normal) {
         if (o1.isFixed) {
             o2.shape.position.add(normal.clone().multiply(overlap));
@@ -305,16 +284,7 @@ export class Collisions {
         o2.velocity.add(normal.clone().multiply(dv2));
     }
 
-    resolveCollisionsPushOff() {
-        let collidedPair, overlap, normal, o1, o2;
-        for(let i=0; i<this.collisions.length; i++) {
-            ({collidedPair, overlap, normal} = this.collisions[i]);
-            [o1, o2] = collidedPair;
-            this.pushOffObjects(o1, o2, overlap, normal);
-        }
-    }
-
-    resolveCollisionsBounceOff() {
+    resolveCollisionsLinear() {
         let collidedPair, overlap, normal, o1, o2;
         for(let i=0; i<this.collisions.length; i++) {
             ({collidedPair, overlap, normal} = this.collisions[i]);
@@ -323,8 +293,12 @@ export class Collisions {
             this.bounceOffObjects(o1, o2, normal);
         }
     }
-
-    resolveCollisionsBounceAndRotate() {
-        console.log("rotations");
+resolveCollisionsBounceOff(){
+    let collidedPair, overlap, normal, o1, o2;
+    for(let i=0; i<this.collisions.length; i++) {
+        ({collidedPair, overlap, normal} = this.collisions[i]);
+        [o1, o2] = collidedPair;
+        this.pushOffObjects(o1, o2, overlap, normal);
+        this.bounceOffObjects(o1, o2, normal);
     }
-}
+}}
