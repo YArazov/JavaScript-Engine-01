@@ -321,7 +321,7 @@ export class Collisions {
         if (relativeVelocity.dot(normal) > 0) {
             return;
         }
-        const j = -(1 + this.e) * relativeVelocity.dot(normal) / (o1.inverseMass + o2.inverseMass);
+        const j = -(1 + this.e) * relativeVelocity.dot(normal) / (o1.inverseMass + o2.inverseMass); //impulse = mass x change in velocity
         const dv1 = j * o1.inverseMass;
         const dv2 = j * o2.inverseMass;
         o1.velocity.subtract(normal.clone().multiply(dv1));
