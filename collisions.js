@@ -41,16 +41,17 @@ export class Collisions {
         let contact, v1, v2;
         let shortestDist = Number.MAX_VALUE;
         for (let i=0; i<polygonVertices.length; i++) {
-        v1 = polygonVertices[i];
-        v2 = polygonVertices[(i+1)%polygonVertices.length];
-        const info = this.findClosestPointSegment (circleCenter, v1, v2);
-            if(info[1]< shortestDist) {
+            v1 = polygonVertices[i];
+            v2 = polygonVertices[(i+1)%polygonVertices.length];
+            const info = this.findClosestPointSegment(circleCenter, v1, v2);    //closest and distSq
+            if(info[1] < shortestDist) {
                 contact = info[0];
                 shortestDist = info[1];
             }
+        }
+        renderer.renderedAlways.push(contact);
+        return contact;
     }
-    return contact;
-}
     detectCollisionCircleCircle(o1, o2) {   //o1 and o2 are rigidBodies from array objects in main  
         const s1 = o1.shape;    //rigidBodies have shape circle or rectangle
         const s2 = o2.shape;    //shape has position and radius
