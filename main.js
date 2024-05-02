@@ -32,7 +32,7 @@ addObject(
     new Rect (
         new Vec(canv.width / 2, canv.height), 
         canv.width * 3, 
-        canv.height * 0.3
+        canv.height * 0.45
     ),
     true
 );

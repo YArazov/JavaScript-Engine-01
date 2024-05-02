@@ -300,7 +300,7 @@ export class Collisions {
                 shortestDist = info[1];
             }
         }
-        renderer.renderedAlways.push(contact);
+        renderer.renderedNextFrame.push(contact);
         return contact;
     }
 
