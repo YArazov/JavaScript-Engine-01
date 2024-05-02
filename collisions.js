@@ -49,7 +49,7 @@ export class Collisions {
                 shortestDist = info[1];
             }
         }
-        renderer.renderedAlways.push(contact);
+        renderer.renderedNextFrame.push(contact);
         return contact;
     }
     detectCollisionCircleCircle(o1, o2) {   //o1 and o2 are rigidBodies from array objects in main  
