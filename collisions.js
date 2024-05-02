@@ -19,6 +19,7 @@ export class Collisions {
                     //detect collisions
                     if(objects[i].shape instanceof Circle && 
                         objects[j].shape instanceof Circle) {
+                            this.detectCollisionCircleCircle(objects[i], objects[j]);
                     }  
                     else if (objects[i].shape instanceof Circle && 
                         objects[j].shape instanceof Rect) {
@@ -50,7 +51,7 @@ export class Collisions {
                 overlap: overlap,
                 normal: normal
             })
-            this.detectCollisionCircleCircle(objects[i], objects[j]);
+            
             const point = s1.position.clone().add(normal.clone().multiply(s1.radius-overlap/2));
             renderer.renderedNextFrame.push(point);
             this.collisions.push({
