@@ -302,3 +302,48 @@ resolveCollisionsBounceOff(){
         this.bounceOffObjects(o1, o2, normal);
     }
 }}
+findContactPointCirclePolygon(circlecenter, polygonvertices) {
+let contact, v1, v2;
+let shortestDist = number.MAX_VALUE;
+}
+for(let i=0; i<polygonVertices.length; i++){
+v1= polygonVertices [i];
+v2 = polygonVertices [(i+1)%polygonVertices.length];
+const info = this.findClosestPointSegment(circleCenter,v1, v2);
+if(info[1]<shortestDist ){
+    contact = info [0];
+    shortestDist = info [1];
+}
+
+}
+return contact; 
+
+const point = this.findContactPointCirclePolygon(cShape.Position, vertices );
+renderer.renderedNextFrame.push(point);
+this.collisions.push({
+    collidedPair: [c,p ],
+    overlap: overlap,
+    normal: normal, //direction from c1 to c2
+    point: point, 
+
+});
+findClosestPointSegment(p, a, b) {
+    const vAB = b.clone().subtract(a);  //vector from point a to point b
+    const vAP = p.clone().subtract(a);
+
+    const proj = vAB.dot(vAP);
+    const d = proj / vAB.magnitude() / vAB.magnitude();
+
+    let closest;    //closest point
+
+    if (d <= 0) {
+        closest = a;
+    } else if (d >= 1) {
+        closest = b;
+    } else {
+        closest = a.clone().add(vAB.clone().multiply(d));
+    }
+    renderer.renderedNextFrame.push(closest);
+    const distSquared = Math.pow(p.distanceTo(closest), 2);
+    return [closest, distSquared];  //explain next class
+}
