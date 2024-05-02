@@ -21,20 +21,19 @@ export class Renderer {
         for (let i = 0; i<objects.length; i++) {
             const shape = objects[i].shape;
             shape.draw(this.ctx, fillCol, bordCol);
-            
-            for (let i = 0; i<this.renderedNextFrame.length; i++) {
-                this.renderedNextFrame[i].draw(this.ctx, bordCol);   //draw each item from the list
-            }
-            this.renderedNextFrame = [];    //clear the array, basically means we only draw them once
-            
-            for (let i = 0; i<this.renderedAlways.length; i++) {
-                this.renderedAlways[i].draw(this.ctx, bordCol);
-            }
-            
-            this.texts.forEach(text => {
-                this.drawText(text);
-            });
         } 
+        for (let i = 0; i<this.renderedNextFrame.length; i++) {
+            this.renderedNextFrame[i].draw(this.ctx, bordCol);   //draw each item from the list
+        }
+        this.renderedNextFrame = [];    //clear the array, basically means we only draw them once
+        
+        for (let i = 0; i<this.renderedAlways.length; i++) {
+            this.renderedAlways[i].draw(this.ctx, bordCol);
+        }
+        
+        this.texts.forEach(text => {
+            this.drawText(text);
+        });
     }
 
     clearFrame() {

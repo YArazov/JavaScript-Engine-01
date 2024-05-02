@@ -47,7 +47,7 @@ export class Collisions {
             //unit vector from s1 to s2
             const normal = s2.position.clone().subtract(s1.position).normalize();   //unit vector(direction) normal(perpendicular) to contact surface
             const point = s1.position.clone().add(normal.clone().multiply(s1.radius-overlap/2));
-            renderer.renderedAlways.push(point);
+            renderer.renderedNextFrame.push(point);
             
             this.collisions.push({  //object
                 collidedPair: [o1, o2], //[array]
