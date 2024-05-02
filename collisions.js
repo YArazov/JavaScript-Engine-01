@@ -37,8 +37,21 @@ export class Collisions {
             }
         }
     }
-
-    detectCollisionCircleCircle(o1, o2) {   //o1 and o2 are rigidBodies from array objects in main
+    findContactPointCirclePolygon(circleCenter, polygonVertices) {
+        let contact, v1, v2;
+        let shortestDist = Number.MAX_VALUE;
+        for (let i=0; i<polygonVertices.length; i++) {
+        v1 = polygonVertices[i];
+        v2 = polygonVertices[(i+1)%polygonVertices.length];
+        const info = this.findClosestPointSegment (circleCenter, v1, v2);
+            if(info[1]< shortestDist) {
+                contact = info[0];
+                shortestDist = info[1];
+            }
+    }
+    return contact;
+}
+    detectCollisionCircleCircle(o1, o2) {   //o1 and o2 are rigidBodies from array objects in main  
         const s1 = o1.shape;    //rigidBodies have shape circle or rectangle
         const s2 = o2.shape;    //shape has position and radius
         const dist = s1.position.distanceTo(s2.position);
@@ -46,13 +59,17 @@ export class Collisions {
             const overlap = s1.radius + s2.radius - dist;
             //unit vector from s1 to s2
             const normal = s2.position.clone().subtract(s1.position).normalize();   //unit vector(direction) normal(perpendicular) to contact surface
-            this.collisions.push({  //object
-                collidedPair: [o1, o2], //[array]
-                overlap: overlap,
-                normal: normal
-            })
+            const point = s1.position.clone().add(normal.clone().multiply(s1.radius-overlap/2));
+            renderer.renderedNextFrame.push(point);
+            this.collisions.push({ //object
+                collidedPair: [o1, o2], // [array]
+                overlap: overlap, 
+                normal: normal, 
+                point: point,
+            });
         }
     }
+    
 
     //detect rectangles collisions
     detectCollisionCirclePolygon (c, p) {
@@ -105,12 +122,16 @@ export class Collisions {
         if (normal.dot(vec1to2) < 0) { 
             normal.invert();
         }
-
+        const point = this.findContactPointCirclePolygon(cShape.position, vertices);
+        renderer. renderedNextFrame.push(point);
+        
         this.collisions.push({
             collidedPair: [c, p],
             overlap: overlap,
-            normal: normal,       //direction from c1 to c2
-        });
+            normal: normal,
+            point: point,
+        }) ;
+
     }
 
     projectVertices (vertices, axis) {
@@ -261,6 +282,7 @@ export class Collisions {
     }
 
     findClosestPointSegment(p, a, b) {
+
         const vAB = b.clone().subtract(a);  //vector from point a to point b
         const vAP = p.clone().subtract(a);
 
