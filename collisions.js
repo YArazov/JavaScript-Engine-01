@@ -7,8 +7,8 @@ export class Collisions {
     constructor() {
         this.collisions = [];
         this.e = 0.5;   //between 0 and 1
-        this.kf = 0.5;
-        this.sf = 0.8;
+        this.kf = 0.3;
+        this.sf = 0.5;
     }
 
     clearCollisions() {
@@ -224,7 +224,7 @@ export class Collisions {
                 collisionNormal = normal;
             }
         }
-        
+        // console.log(o1, o2);
         const normal = this.correctNormalDirection(collisionNormal, o1, o2);
 
         const point = this.findContactPointPolygons(vertices1, vertices2);
@@ -421,7 +421,7 @@ export class Collisions {
         const relativeVelocity = o2.velocity.clone().add(v2).subtract(o1.velocity).subtract(v1);
         const contactVelocityNormal = relativeVelocity.dot(normal);
         if (contactVelocityNormal > 0) {
-            return;
+            return 0;
         }
         
         const r1PerpDotN = r1Perp.dot(normal);
