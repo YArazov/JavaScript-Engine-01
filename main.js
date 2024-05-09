@@ -11,13 +11,17 @@ const WORLD_SIZE = 5000;
 const SMALLEST_RADIUS = 10;
 const dt = 1/60;    //time per frame
 let g;
+let fillCol = "black"; 
+let bordCol = "darkGray"; 
+let colour;
+
 
 const canv = document.getElementById("canvas");
 const ctx = canv.getContext("2d");
 
 export const renderer = new Renderer(canv, ctx);
-const fillCol = "darkGray";
-const bordCol = "black";
+
+
 
 const col = new Collisions();
 export const calc = new Calc();
@@ -59,6 +63,8 @@ rectButton.onclick = function() {
     setButtonBold(rectButton, true);
 };
 
+
+
 //selects
 const selectGravity = document.getElementById("gravity");
 selectGravity.addEventListener("change", function() {
@@ -67,6 +73,11 @@ selectGravity.addEventListener("change", function() {
 const selectCollisions = document.getElementById("collisions");
 selectCollisions.addEventListener("change", function() {
     colMode = selectCollisions.value;
+});
+
+const selectColour = document.getElementById("colour");
+selectColour.addEventListener("change", function() {
+    colour = selectColour.value;
 });
 
 //MAIN LOOP
@@ -119,6 +130,39 @@ function updateAndDraw() {
         case gravity == 1: g = 20; break;
         case gravity == 3: g = 2000; break;
         default: g = 200; break;
+    }
+    switch (true) {
+        case colour == 0: 
+        fillCol = "red";
+        bordCol = "pink"; break;
+
+        case colour == 1: 
+        fillCol = "orange";
+        bordCol = "pink"; break;
+
+        case colour == 2: 
+        fillCol = "yellow";
+        bordCol = "lightGray"; break;
+
+        case colour == 3: 
+        fillCol = "green";
+        bordCol = "cyan"; break;
+
+        case colour == 4: 
+        fillCol = "blue";
+        bordCol = "cyan"; break;
+
+        case colour == 5: 
+        fillCol = "purple";
+        bordCol = "darkGray"; break;
+
+        case colour == 6: 
+        fillCol = "pink";
+        bordCol = "lightGray"; break;
+
+        default:
+        fillCol = "black";
+        bordCol = "darkGray"; break;
     }
     for(let i=0; i<objects.length; i++) {
         objects[i].acceleration.zero();
@@ -212,4 +256,3 @@ function setButtonBold(btn, bool){
         btn.style.fontWeight =  '400';
     }
 }
-
