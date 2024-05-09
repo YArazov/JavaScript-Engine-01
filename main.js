@@ -11,10 +11,9 @@ const WORLD_SIZE = 5000;
 const SMALLEST_RADIUS = 10;
 const dt = 1/60;    //time per frame
 let g;
-let fillCol = "black"; 
-let bordCol = "darkGray"; 
+let fillColor = "black"; 
+let strokeColor = "darkGray"; 
 let colour;
-let selectedColorIndex = 0; // Default color index
 
 
 const canv = document.getElementById("canvas");
@@ -79,33 +78,17 @@ selectCollisions.addEventListener("change", function() {
 const selectColour = document.getElementById("colour");
 selectColour.addEventListener("change", function() {
     colour = selectColour.value;
-    selectedColorIndex = parseInt(selectColour.value);
 });
 
-function setColorsByIndex(index) {
-    const colors = [
-        { fillCol: "red", bordCol: "pink" },
-        { fillCol: "orange", bordCol: "pink" },
-        { fillCol: "yellow", bordCol: "lightGray" },
-        { fillCol: "green", bordCol: "cyan" },
-        { fillCol: "blue", bordCol: "cyan" },
-        { fillCol: "purple", bordCol: "darkGray" },
-        { fillCol: "pink", bordCol: "lightGray" },
-        { fillCol: "black", bordCol: "darkGray" }
-    ];
 
-    return colors[index] || colors[0]; // Default to the first color if index is out of range
-}
 //MAIN LOOP
 function updateAndDraw() {
-
-    const { fillCol, bordCol } = setColorsByIndex(selectedColorIndex);
     // console.log(colMode);
     //make objects
     if (inp.inputs.lclick && shapeBeingMade == null) {
         //lesson 03 - make rectangles with mouse
         if (shapeSelected == 'c') {
-            shapeBeingMade = new Circle(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS, 0);
+            shapeBeingMade = new Circle(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS, fillColor, strokeColor);
         } else if (shapeSelected == 'r') {
             shapeBeingMade = new Rect(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS*2, SMALLEST_RADIUS*2);
         }
@@ -151,36 +134,36 @@ function updateAndDraw() {
     }
     switch (true) {
         case colour == 0: 
-        fillCol = "red";
-        bordCol = "pink"; break;
+        fillColor = "red";
+        strokeColor = "pink"; break;
 
         case colour == 1: 
-        fillCol = "orange";
-        bordCol = "pink"; break;
+        fillColor = "orange";
+        strokeColor = "pink"; break;
 
         case colour == 2: 
-        fillCol = "yellow";
-        bordCol = "lightGray"; break;
+        fillColor = "yellow";
+        strokeColor = "lightGray"; break;
 
         case colour == 3: 
-        fillCol = "green";
-        bordCol = "cyan"; break;
+        fillColor = "green";
+        strokeColor = "cyan"; break;
 
         case colour == 4: 
-        fillCol = "blue";
-        bordCol = "cyan"; break;
+        fillColor = "blue";
+        strokeColor = "cyan"; break;
 
         case colour == 5: 
-        fillCol = "purple";
-        bordCol = "darkGray"; break;
+        fillColor = "purple";
+        strokeColor = "darkGray"; break;
 
         case colour == 6: 
-        fillCol = "pink";
-        bordCol = "lightGray"; break;
+        fillColor = "pink";
+        strokeColor = "lightGray"; break;
 
         default:
-        fillCol = "black";
-        bordCol = "darkGray"; break;
+        fillColor = "black";
+        strokeColor = "darkGray"; break;
     }
     for(let i=0; i<objects.length; i++) {
         objects[i].acceleration.zero();
@@ -223,10 +206,10 @@ function updateAndDraw() {
 
     //draw objects
     renderer.clearFrame();
-    renderer.drawFrame(objects, fillCol, bordCol);
+    renderer.drawFrame(objects, fillColor, strokeColor);
     //draw shape
     if (shapeBeingMade) {
-        shapeBeingMade.draw(ctx, bordCol, null);
+        shapeBeingMade.draw(ctx, strokeColor, null);
     }
 }
 let renderInterval = setInterval(updateAndDraw, 1000 / 60);
@@ -253,9 +236,6 @@ function moveObjectWithMouse(object) {
 function addObject(shape, fixed=false) {
     const object = new RigidBody(shape, fixed); 
     object.setMass();
-    let { fillCol, bordCol } = setColorsByIndex(selectedColorIndex); // Retrieve colors based on the selected index
-    object.fillCol = fillCol; // Assign fill color to the object
-    object.bordCol = bordCol; // Assign border color to the object
     objects.push(object);
 } 
 
