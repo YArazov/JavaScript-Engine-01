@@ -19,5 +19,8 @@ export class Springs {
         x: this.object2.position.x - this.object1.position.x,
         y: this.object2.position.y - this.object1.position.y,
         };
+        
+        this.object1.applyForce({ x: forceX, y: forceY });
+        this.object2.applyForce({ x: -forceX, y: -forceY });
     }
 }
