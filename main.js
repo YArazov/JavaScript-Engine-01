@@ -6,6 +6,7 @@ import {RigidBody} from './rigidBody.js';
 import {Collisions} from './collisions.js';
 import {Vec} from './vector.js';
 import {Calc} from './calc.js';
+import {Springs} from './spring.js';
 
 const WORLD_SIZE = 5000;
 const SMALLEST_RADIUS = 10;
@@ -215,4 +216,46 @@ function setButtonBold(btn, bool){
         btn.style.fontWeight =  '400';
     }
 }
+
+//PROJECT
+// Assuming you have some Object and Spring classes defined
+
+// Keep track of selected objects
+let selectedObjects = [];
+
+// Keep track of whether adding spring mode is active
+let addingSpringMode = false;
+
+// Function to handle mouse right-click
+function handleRightClick(event) {
+    event.preventDefault(); // Prevent default right-click behavior
+
+    // Check if adding spring mode is active and there are selected objects
+    if (addingSpringMode && selectedObjects.length === 2) {
+        const mouseX = event.clientX - canvas.getBoundingClientRect().left;
+        const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+        // Check if mouse is close enough to any of the selected objects
+        for (const obj of selectedObjects) {
+            const distance = Math.sqrt((mouseX - obj.position.x) ** 2 + (mouseY - obj.position.y) ** 2);
+            if (distance <= 20) { // Adjust this value as needed
+                // Create a spring between the selected object and the mouse position
+                const spring = new Springs(springConstant, restLength, obj, { position: { x: mouseX, y: mouseY } });
+                springs.push(spring);
+                break;
+            }
+        }
+    }
+}
+
+// Function to handle button click to toggle adding spring mode
+function toggleAddingSpringMode() {
+    addingSpringMode = !addingSpringMode;
+}
+
+// Add event listeners
+canvas.addEventListener('contextmenu', handleRightClick);
+document.getElementById('addSpringBtn').addEventListener('click', toggleAddingSpringMode);
+
+
 
