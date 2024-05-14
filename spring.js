@@ -22,7 +22,7 @@ export class Springs {
     // Method to calculate and apply the spring force
     addForce(dt) {
         // Calculate the displacement vector between the two objects
-        const displacement = {  //By calculating this displacement vector, the code can then determine how much the spring is stretched or compressed
+        const displacement = {  
           x: this.object2.shape.position.x - this.object1.shape.position.x,
           y: this.object2.shape.position.y - this.object1.shape.position.y,
         };
@@ -41,5 +41,5 @@ export class Springs {
         // Apply forces to the connected objects
         this.object1.velocity.add(force.clone().multiply(dt / this.object1.mass));
         this.object2.velocity.subtract(force.clone().multiply(dt / this.object2.mass));
-    }   //This part of the code calculates the force exerted by the spring and applies it to the connected objects by adjusting their velocities. It ensures that the spring system behaves realistically within the simulation by considering the direction and magnitude of the spring force and the masses of the connected objects.
+    }   
 }
