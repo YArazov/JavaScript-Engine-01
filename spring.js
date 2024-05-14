@@ -8,18 +8,21 @@ export class Springs {
         this.object2 = object2; // Second object connected to the spring
     }
 
-    draw(ctx) {
+    draw(ctx) { // Method to draw the spring on the canvas
         ctx.beginPath();
         ctx.moveTo(this.object1.shape.position.x, this.object1.shape.position.y);
+        // Move to the first object's position
         ctx.lineTo(this.object2.shape.position.x, this.object2.shape.position.y);
+        // Draw a line to the second object's position
         ctx.lineWidth = 2;
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = 'blue';
         ctx.stroke();
     }
 
+    // Method to calculate and apply the spring force
     addForce(dt) {
         // Calculate the displacement vector between the two objects
-        const displacement = {
+        const displacement = {  //By calculating this displacement vector, the code can then determine how much the spring is stretched or compressed
           x: this.object2.shape.position.x - this.object1.shape.position.x,
           y: this.object2.shape.position.y - this.object1.shape.position.y,
         };
@@ -34,11 +37,9 @@ export class Springs {
         const forceX = (forceMagnitude / currentLength) * displacement.x;
         const forceY = (forceMagnitude / currentLength) * displacement.y;
         const force = new Vec(forceX, forceY);
-        console.log(force.clone().divide(this.object1.mass));
+        
         // Apply forces to the connected objects
         this.object1.velocity.add(force.clone().multiply(dt / this.object1.mass));
         this.object2.velocity.subtract(force.clone().multiply(dt / this.object2.mass));
-        // this.object1.applyForce({ x: forceX, y: forceY });
-        // this.object2.applyForce({ x: -forceX, y: -forceY });
-    }
+    }   //This part of the code calculates the force exerted by the spring and applies it to the connected objects by adjusting their velocities. It ensures that the spring system behaves realistically within the simulation by considering the direction and magnitude of the spring force and the masses of the connected objects.
 }

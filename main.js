@@ -10,8 +10,8 @@ import {Springs} from './spring.js';
 
 const WORLD_SIZE = 5000;
 const SMALLEST_RADIUS = 10;
-const SPRING_CONSTANT = 100000;
-const REST_LENGTH = 200;
+const SPRING_CONSTANT = 100000; // Stiffness of the spring
+const REST_LENGTH = 200;    //// Rest length of the spring
 const dt = 1/60;    //time per frame
 let g;
 
@@ -62,7 +62,7 @@ rectButton.onclick = function() {
     setButtonBold(circleButton, false);
     setButtonBold(rectButton, true);
 };
-springButton.onclick = function() {
+springButton.onclick = function() { //Add Spring button
     addingSpringMode = addingSpringMode == true ? false : true;
     setButtonBold(springButton, addingSpringMode);
 };
@@ -109,19 +109,25 @@ function updateAndDraw() {
     }
 
     //move objects with mouse
+    // Check right click and no object being moved.
     if(!inp.inputs.lclick && inp.inputs.rclick && !inp.inputs.mouse.movedObject) {
+         // Find the closest object to the mouse position.
         const closestObject = findClosestObject(objects, inp.inputs.mouse.position);
+        
+        // If adding spring mode and no object selected, select the closest object.
         if (addingSpringMode && closestObject && !selectedObject) {
            selectedObject = closestObject;
-           closestObject.shape.strokeColor = 'red';
-        } else {
+           closestObject.shape.strokeColor = 'red'; // Highlight selected object.
+        } else { // Set movedObject to closest object or null.
             inp.inputs.mouse.movedObject = closestObject == null ? null : closestObject;
         }
+        
+        // If adding spring mode and valid objects, create a spring.
         if(addingSpringMode && selectedObject && selectedObject != closestObject && closestObject) {
             const spring = new Springs(SPRING_CONSTANT, REST_LENGTH, selectedObject, closestObject);
             springs.push(spring);
-            selectedObject.shape.strokeColor = bordCol;
-            selectedObject = null;
+            selectedObject.shape.strokeColor = bordCol; // Reset color.
+            selectedObject = null;  // Clear selected object.
         }
     }
     if(!inp.inputs.rclick || inp.inputs.lclick) {
@@ -146,8 +152,9 @@ function updateAndDraw() {
         }
     }
 
+    // Apply forces from springs to the connected objects.
     for(let i=0; i<springs.length; i++) {
-        springs[i].addForce(dt);
+        springs[i].addForce(dt);    // Update spring forces
     }
 
     const iterations = 20;
@@ -188,6 +195,7 @@ function updateAndDraw() {
     //draw objects
     renderer.clearFrame();
     
+    // Draw spring.
     renderer.drawFrame(objects, fillCol, bordCol);
     for (let i=0; i<springs.length; i++) {
         springs[i].draw(ctx);
@@ -243,8 +251,10 @@ function setButtonBold(btn, bool){
         btn.style.fontWeight =  '400';
     }
 }
+
 let springs = [];
 let selectedObject;
+let addingSpringMode = false;
 
 
 
