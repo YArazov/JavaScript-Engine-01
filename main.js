@@ -244,14 +244,9 @@ function setButtonBold(btn, bool){
     }
 }
 let springs = [];
-//PROJECT
-// Keep track of selected objects
 let selectedObject;
 
 
-
-// Keep track of whether adding spring mode is active
-let addingSpringMode = false;
 
 // Function to handle mouse right-click
 // function handleRightClick(event) {
