@@ -1,7 +1,6 @@
 import {Vec} from './vector.js';
 import {Aabb} from './aabb.js';
-import {fillColor} from './main.js';
-import {strokeColor} from './main.js';
+
 
 export class Rect {
 	constructor(pos, w, h, fillColor, strokeColor) {
@@ -67,7 +66,6 @@ export class Rect {
         ctx.save();
         ctx.translate(this.position.x, this.position.y);
         ctx.rotate(this.orientation);
-        if (fillColor) {
             ctx.fillStyle = this.fillColor;
             ctx.fillRect(
                 - this.width/2,
@@ -75,7 +73,7 @@ export class Rect {
                 this.width,
                 this.height,
             );
-        }
+
         ctx.strokeStyle = this.strokeColor;
         ctx.lineWidth = 3;
        	ctx.strokeRect(

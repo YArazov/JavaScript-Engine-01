@@ -90,9 +90,15 @@ function updateAndDraw() {
     if (inp.inputs.lclick && shapeBeingMade == null) {
         //lesson 03 - make rectangles with mouse
         if (shapeSelected == 'c') {
-            shapeBeingMade = new Circle(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS, fillColor, strokeColor);
+            shapeBeingMade = new Circle(
+                inp.inputs.mouse.position.clone(), 
+                SMALLEST_RADIUS, fillColor, strokeColor);
         } else if (shapeSelected == 'r') {
-            shapeBeingMade = new Rect(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS*2, SMALLEST_RADIUS*2);
+            shapeBeingMade = new Rect(
+                inp.inputs.mouse.position.clone(), 
+                SMALLEST_RADIUS*2, 
+                SMALLEST_RADIUS*2, fillColor, strokeColor
+            );
         }
         
     }
