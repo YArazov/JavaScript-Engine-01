@@ -6,9 +6,12 @@ import {RigidBody} from './rigidBody.js';
 import {Collisions} from './collisions.js';
 import {Vec} from './vector.js';
 import {Calc} from './calc.js';
+import {Springs} from './spring.js';
 
 const WORLD_SIZE = 5000;
 const SMALLEST_RADIUS = 10;
+const SPRING_CONSTANT = 100000; // Stiffness of the spring
+const REST_LENGTH = 200;    //// Rest length of the spring
 const dt = 1/60;    //time per frame
 let g;
 
@@ -34,7 +37,7 @@ addObject(
     new Rect (
         new Vec(canv.width / 2, canv.height), 
         canv.width * 3, 
-        canv.height * 0.45
+        canv.height * 0.45, fillCol, bordCol
     ),
     true
 );
@@ -48,6 +51,7 @@ let colMode = 4;
 
 const circleButton = document.getElementById("c");
 const rectButton = document.getElementById("r");
+const springButton = document.getElementById("addSpringBtn");
 circleButton.onclick = function() {
     shapeSelected = 'c';
     setButtonBold(circleButton, true);
@@ -57,6 +61,10 @@ rectButton.onclick = function() {
     shapeSelected = 'r';
     setButtonBold(circleButton, false);
     setButtonBold(rectButton, true);
+};
+springButton.onclick = function() { //Add Spring button
+    addingSpringMode = addingSpringMode == true ? false : true;
+    setButtonBold(springButton, addingSpringMode);
 };
 
 //selects
@@ -76,9 +84,9 @@ function updateAndDraw() {
     if (inp.inputs.lclick && shapeBeingMade == null) {
         //lesson 03 - make rectangles with mouse
         if (shapeSelected == 'c') {
-            shapeBeingMade = new Circle(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS, 0);
+            shapeBeingMade = new Circle(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS, fillCol, bordCol);
         } else if (shapeSelected == 'r') {
-            shapeBeingMade = new Rect(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS*2, SMALLEST_RADIUS*2);
+            shapeBeingMade = new Rect(inp.inputs.mouse.position.clone(), SMALLEST_RADIUS*2, SMALLEST_RADIUS*2, fillCol, bordCol);
         }
         
     }
@@ -101,9 +109,26 @@ function updateAndDraw() {
     }
 
     //move objects with mouse
+    // Check right click and no object being moved.
     if(!inp.inputs.lclick && inp.inputs.rclick && !inp.inputs.mouse.movedObject) {
+         // Find the closest object to the mouse position.
         const closestObject = findClosestObject(objects, inp.inputs.mouse.position);
-        inp.inputs.mouse.movedObject = closestObject == null ? null : closestObject;
+        
+        // If adding spring mode and no object selected, select the closest object.
+        if (addingSpringMode && closestObject && !selectedObject) {
+           selectedObject = closestObject;
+           closestObject.shape.strokeColor = 'red'; // Highlight selected object.
+        } else { // Set movedObject to closest object or null.
+            inp.inputs.mouse.movedObject = closestObject == null ? null : closestObject;
+        }
+        
+        // If adding spring mode and valid objects, create a spring.
+        if(addingSpringMode && selectedObject && selectedObject != closestObject && closestObject) {
+            const spring = new Springs(SPRING_CONSTANT, REST_LENGTH, selectedObject, closestObject);
+            springs.push(spring);
+            selectedObject.shape.strokeColor = bordCol; // Reset color.
+            selectedObject = null;  // Clear selected object.
+        }
     }
     if(!inp.inputs.rclick || inp.inputs.lclick) {
         inp.inputs.mouse.movedObject = null;
@@ -125,6 +150,11 @@ function updateAndDraw() {
         if(!objects[i].isFixed) {
             objects[i].acceleration.y += g;
         }
+    }
+
+    // Apply forces from springs to the connected objects.
+    for(let i=0; i<springs.length; i++) {
+        springs[i].addForce(dt);    // Update spring forces
     }
 
     const iterations = 20;
@@ -164,7 +194,12 @@ function updateAndDraw() {
 
     //draw objects
     renderer.clearFrame();
+    
+    // Draw spring.
     renderer.drawFrame(objects, fillCol, bordCol);
+    for (let i=0; i<springs.length; i++) {
+        springs[i].draw(ctx);
+    }
     //draw shape
     if (shapeBeingMade) {
         shapeBeingMade.draw(ctx, bordCol, null);
@@ -209,10 +244,50 @@ function removeObjects(objectsToRemove) {
 }
 
 function setButtonBold(btn, bool){
+    console.log(bool);
     if (bool) {
         btn.style.fontWeight =  '700';
     } else {
         btn.style.fontWeight =  '400';
     }
 }
+
+let springs = [];
+let selectedObject;
+let addingSpringMode = false;
+
+
+
+// Function to handle mouse right-click
+// function handleRightClick(event) {
+//     event.preventDefault(); // Prevent default right-click behavior
+
+//     // Check if adding spring mode is active and there are selected objects
+//     if (addingSpringMode && selectedObject.length === 2) {
+//         const mouseX = event.clientX - canv.getBoundingClientRect().left;
+//         const mouseY = event.clientY - canv.getBoundingClientRect().top;
+
+//         // Check if mouse is close enough to any of the selected objects
+//         for (const obj of selectedObject) {
+//             const distance = Math.sqrt((mouseX - obj.position.x) ** 2 + (mouseY - obj.position.y) ** 2);
+//             if (distance <= 20) { // Adjust this value as needed
+//                 // Create a spring between the selected object and the mouse position
+//                 const spring = new Springs(springConstant, restLength, obj, { position: { x: mouseX, y: mouseY } });
+//                 springs.push(spring);
+//                 break;
+//             }
+//         }
+//     }
+// }
+
+// // Function to handle button click to toggle adding spring mode
+// function toggleAddingSpringMode() {
+//     addingSpringMode = !addingSpringMode;
+// }
+
+// Add event listeners
+// canv.addEventListener('contextmenu', handleRightClick);
+// document.getElementById('addSpringBtn').addEventListener('click', toggleAddingSpringMode);
+
+
 
