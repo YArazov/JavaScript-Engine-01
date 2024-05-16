@@ -1,5 +1,7 @@
 import {Vec} from './vector.js';
 import {Aabb} from './aabb.js';
+import {fillColor} from './main.js';
+import {strokeColor} from './main.js';
 
 export class Rect {
 	constructor(pos, w, h, fillColor, strokeColor) {
