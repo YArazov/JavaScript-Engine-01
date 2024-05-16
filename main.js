@@ -50,7 +50,7 @@ let shapeBeingMade = null;
 //button variables
 let shapeSelected = 'r';
 let gravity = 2;
-let colMode = 2;
+let colMode = 4;
 
 const circleButton = document.getElementById("c");
 const rectButton = document.getElementById("r");
@@ -198,7 +198,10 @@ function updateAndDraw() {
             col.resolveCollisionsBounceOff();    //push off
         } else if (colMode == 3) {
             col.narrowPhaseDetection(objects);
-            col.resolveCollisionsBounceAndRotate();
+            col.resolveCollisionsBounceAndRotate(false);
+        } else if (colMode == 4) {
+            col.narrowPhaseDetection(objects);
+            col.resolveCollisionsBounceAndRotate(true);
         }
     }
 
